@@ -6,6 +6,7 @@ My walkthroughs, designed to help build solid fundamentals and understanding for
 # Arrays
 # Stacks
 # Queues
+# Priority Queues/Heaps
 # Trees
 # Hash tables
 # Dynamic Programming 
