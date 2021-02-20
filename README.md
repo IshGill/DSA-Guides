@@ -67,6 +67,69 @@ The idea for this algorithm is if we add every element in our window into our se
                 windowStart += 1
         return running_sum
 
+## Dynamic window and hash map problem - Len of longest two distinct character substring
+Main idea for solving this one is a dynamic sliding window and hash table implementation. Here is the approach.
+* 1: Start both the window pointers at the same index
+* 2: Every iteration add the current element which the left pointer (the end window pointer) is currently pointing at. This guy is the one that moves down the string!
+* 3: Once we have 3 distinct characters in our hash map (remember hash map keys cannot be duplicated!) then this means we need to delete the key of the value seen the longest time ago
+* 4: What it means to delete the item seen "longest ago" is simply delete the item in your hash table which has the lowest corresponding string index value, hence the value to the key in the hash map
+* 5: Of course, to do this operation with a hash map is simple, find the min value, then index into the corresponding key and do del hash_map[...]
+* 6: Once we have deleted this element from the hash map, we now need to change the windows size, hence we need to bring the start of the window up to the point 1 index past the element we just deleted
+* 7: So use the same variable (min value variable) and bring your windowStart up accordingly
+* 8: Finally we do a check everytime to see if we have the longest distance between our string values which contain only 2 distinct characters, we add 1 to get the length between them.
+
+        def lengthOfLongestSubstringTwoDistinct(s):
+            hash_map = {}
+            windowStart = 0
+            windowEnd = 0
+            maxLen = 0
+            while windowEnd < len(s):
+                hash_map[s[windowEnd]] = windowEnd
+                if len(hash_map) >= 3:
+                    find_min = min(hash_map.values())
+                    del hash_map[s[find_min]]
+                    windowStart = find_min + 1
+                maxLen = max(maxLen, windowEnd - windowStart + 1)
+                windowEnd += 1
+            return maxLen
+
+        print(lengthOfLongestSubstringTwoDistinct("eceba"))
+
+## Dynamic window - 3Sum
+Dynamic sliding window, two pointer approach, apply x + y + z = 0 formula nice and easy!
+IMPORTANT NOTES!
+If we need to check 3 elements in an array we must use len(array) -2, if we need to check only two elements we use len(array) -1 and follow this pattern
+USING CONTINUE MEANS YOU SKIP THE ITERATION OF THE FOR LOOP!
+Use if i > 0 and nums[i] == nums[i-1]: continue to check for duplicates!
+
+    def threeSum(nums):
+        triples = []
+        # We need to sort before doing any 2sum, 3sum approach using dynamic window
+        nums.sort()
+        # We use len - 2 because we need at least 3 numbers to continue
+        for i in range(len(nums) - 2):
+            # This is how we can check for duplicates and avoid them! THIS IS MUCH MORE EFFICIENT THAN USING A SET!
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            windowStart = i + 1
+            windowEnd = len(nums) - 1
+            while windowStart < windowEnd:
+                target = nums[i] + nums[windowStart] + nums[windowEnd]
+                if target < 0:
+                    windowStart += 1
+                elif target > 0:
+                    windowEnd -= 1
+                else:
+                    triples.append((nums[i], nums[windowStart], nums[windowEnd]))
+                    # These two while loops will avoid the duplicates for both windows!
+                    while windowStart < windowEnd and nums[windowStart] == nums[windowStart + 1]:
+                        windowStart += 1
+                    while windowStart < windowEnd and nums[windowEnd] == nums[windowEnd - 1]:
+                        windowEnd -= 1
+                    windowStart += 1
+                    windowEnd -= 1
+        return triples
+
 # Strings
 ## License Key Formatting 
 All we need to do with this question is firstly clean up the given string S by making it uppercase and replacing all instances of - with empty strings.
@@ -105,3 +168,21 @@ The way to approach the maximum Subarray problem is by using Kadane's algorithm.
             if current_max > global_max:
                 global_max = current_max
         return global_max
+## Jump Game
+*  We use a greedy backtracking approach. It is quite simple.
+*  Given [2, 3, 1, 1, 4] all we want to do is start from the last index element in the array, hence the target.
+*  We are just going to go backwards and check if we are able to reach the previous element, hence the element we just came from.
+*  This means that if we can get to the 0th index from the end we are able to reach the last element in the list, else we are not.
+*  ie [2, 3, 1, 1, 4], start at 4, i + nums[i] = 4 + 4 > lastgoodindex = 4 is reachable, therefore move down the list, update lastgoodindex to be i
+*  Now i moves to 3. i + nums[i] = 3 + nums[3] = 3 + 1 >= lastgoodindex = 3 is reachable, therefore move down and make lastgoodindex the next element so i = 2
+*  i moves to 2. i + nums[i] = 2 + nums[2] = 2 + 1 >= lastgoodindex = 2 is reachable, therefore move down and make lastgoodindex the next element so i = 1
+*  i moves to 1. i + nums[i] = 1 + nums[1] = 1 + 3 >= lastgoodindex = 1 is reachable, update lastgoodindex to i = 0
+* i moves to 0. i + nums[i] = 0 + nums[0] = 0 + 2 >= lastgoodindex = 0 is reachable. We are done. 
+
+        def canJump(nums):
+            lastGoodIndex = len(nums) - 1
+            for i in range(len(nums) - 1, -1, -1):
+                if i + nums[i] >= lastGoodIndex:
+                    lastGoodIndex = i
+            return True if lastGoodIndex == 0 else False
+        
