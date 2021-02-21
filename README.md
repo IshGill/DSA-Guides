@@ -356,7 +356,7 @@ def maxDistToClosest(seats):
     return max(lastSeen)
 ```    
 ## Trapping rainwater
-* Idea is the list in question "height" depcits the possible water levels at each specific index.
+* Idea is the list in question "height" depicts the possible water levels at each specific index.
 * What we are going to do is find the height of the each "building" at each index in the given "height" array
 * How we do this is we make to dp (dynamic programming) lists, we parse left and append only the max values of each consecutive index to the list
 * We parse right and append the max element values for all indexes to the dpRight list. NOTE WITH DPRIGHT WE MUST REVERSE THE LIST
