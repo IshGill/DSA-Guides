@@ -224,7 +224,43 @@ def mergeKLists(lists):
         sortedLL = sortedLL.next
     return dummy.next
  ```
+## Remove nth node from end
+* Dummy is the star here. By using dummy we are able to stay n + 1 behind runner, therefore we don't get any pesky edge case errors when current.next.next == None etc
+* So main thing to remember is use dummy, stay n + 1 behind and always return dummy.next.
+```
+def removeNthFromEnd(head, n):
+    dummy = current = ListNode(0, head)
+    runner = head
+    for i in range(n):
+        runner = runner.next
 
+    while runner:
+        current = current.next
+        runner = runner.next
+    current.next = current.next.next
+    return dummy.next
+```
+## Remove duplicates in linked list
+* General idea here is to iterate through to linked lists and compare their elements we use nested while loops.
+1. Set reference variables for each linked list object
+2. Set a outer loop counter, a matched elements counter and a inner loop reset counter
+3. Iterate any list with the outer loop counter < self.size()
+4. Nested while loop with inner_loop_counter < other.size()
+5. During this while loop check if the current data of the current linked list is equal to the one current data in the self linked list, if it is then add 1 to the counter, if not the increment the outer loop counter and do other = other.get_next()
+6. Finally just check if the matched counter is == size of both linked lists
+```
+def remove_dupes(linked_list):
+    current = linked_list.get_head()  # Current will point to head node of linked list
+    runner = linked_list.get_head()  # Runner also points at head node of linked list
+    while current != None:  # Iterate while current != None
+        while runner.get_next() != None:  # While the element after the head element also does not equal None
+            if current.get_data() == runner.get_next().get_data():  # If the current data in the linked list is present in the next node of the linked list
+                runner.remove_after()  # Remove that node
+            else:
+                runner = runner.get_next()  # Else increment runner
+        runner = current.get_next()  # Reset runner to the next element of the linked list
+        current = current.get_next()  # Reset current to the next element of the linked list
+```
 # Sorting & Searching
 # Stacks
 ## Valid parentheses
