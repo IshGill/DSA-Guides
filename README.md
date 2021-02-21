@@ -143,6 +143,40 @@ def licenseKeyFormatting(self, S, K):
     #Join the new list and return in after reversing! 
     return "-".join(new_S)[::-1]
 ```
+## Next closest time
+Remember the time conversions!
+* 24 hour time to minutes is hours digit * 60 + minutes digits
+* For this question you need to set each converted times digit individually, hence remember:
+* Hours tens digit = total minutes / 60 / 10
+* Hours ones digit = total minutes / 60 % 10
+* Minutes tens digit = total minutes % 60 / 10
+* Minutes ones digit = total minutes % 60 % 10
+* Set up a hash set which contains all the values which you are allowed to work with
+* Every times you increment you totalminutes check if that newly incremented value has digits which are all present in the hash set, if so flag will stay True we are done! return the result!
+```
+def nextClosestTime(time):
+    hoursInMins = int(time[:2]) * 60
+    totalMins = hoursInMins + int(time[3:])
+
+    hashSet = set()
+    for i in time:
+        if i.isdigit():
+            hashSet.add(int(i))
+
+    while True:
+        totalMins = (totalMins + 1) % (1440)
+        totalNewTime = str(totalMins / 60 / 10) + str(totalMins / 60 % 10) + ":" + str(totalMins % 60 / 10) + str(
+            totalMins % 60 % 10)
+
+        flag = True
+        for i in totalNewTime:
+            if i.isdigit():
+                if int(i) not in hashSet:
+                    flag = False
+
+        if flag == True:
+            return totalNewTime
+```
 # Arrays
 ## Missing ranges
 * Main idea is we think of lower and upper being included in the array
@@ -285,37 +319,3 @@ def maxDistToClosest(seats):
             distance = 0
     return max(lastSeen)
 ```    
-## Next closest time
-Remember the time conversions!
-* 24 hour time to minutes is hours digit * 60 + minutes digits
-* For this question you need to set each converted times digit individually, hence remember:
-* Hours tens digit = total minutes / 60 / 10
-* Hours ones digit = total minutes / 60 % 10
-* Minutes tens digit = total minutes % 60 / 10
-* Minutes ones digit = total minutes % 60 % 10
-* Set up a hash set which contains all the values which you are allowed to work with
-* Every times you increment you totalminutes check if that newly incremented value has digits which are all present in the hash set, if so flag will stay True we are done! return the result!
-```
-def nextClosestTime(time):
-    hoursInMins = int(time[:2]) * 60
-    totalMins = hoursInMins + int(time[3:])
-
-    hashSet = set()
-    for i in time:
-        if i.isdigit():
-            hashSet.add(int(i))
-
-    while True:
-        totalMins = (totalMins + 1) % (1440)
-        totalNewTime = str(totalMins / 60 / 10) + str(totalMins / 60 % 10) + ":" + str(totalMins % 60 / 10) + str(
-            totalMins % 60 % 10)
-
-        flag = True
-        for i in totalNewTime:
-            if i.isdigit():
-                if int(i) not in hashSet:
-                    flag = False
-
-        if flag == True:
-            return totalNewTime
-```
