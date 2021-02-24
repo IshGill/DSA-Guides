@@ -417,27 +417,25 @@ def postorderTraversal(root):
 ```
 * Iterative solution
 * [EXPLANATION]
-```
-def preorderTraversal(self, root):
-    if not root: return []
-    stack = [root]
-    result = []
-    while stack:
-        root = stack.pop()
-        if root.right:
-            stack.append(root.right)
-        if root.left:
-            stack.append(root.left)
-        result.append(root.val)
-    return result
-```
+
 ## Max depth of a binary tree
-* [EXPLANATION]
+* We use a Top-Down recursive approach to calculate the depth of a binary tree. 
+* Top-Down recurison can kind of be thought like doing a preorder traversal, all we are doing is visiting each node, taking its value and passing it to its children.
+* To find the max depth of a tree:
+1. We know that the root of the tree always has depth 1
+2. So all we need to do is recurse left down each branch of the tree, to its leaves. 
+3. We can see we have two methods findLeft and findRight which do this recursion, we can also see that each time we move down to a new NON-NONE node we add 1 to the value.
+4. Finally when we hit a leaf, we hit the condition root.left is None and root.right is None, so we want to return 1 to account for the depth of our leaf node and then we want to break out of the recursion for the specific left or right calls.
+5. We then simply return the max of findLeft and findRight which returns to us the maximum depth of the tree.
 ```
 def maxDepth(self, root):
     if root is None:
         return 0
-    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+    if root.left is None and root.right is None:
+        return 1
+    findLeft = 1 + self.maxDepth(root.left)
+    findRight = 1 + self.maxDepth(root.right)
+    return max(findLeft, findRight)
 ```
 # Hash tables
 # Dynamic Programming 
