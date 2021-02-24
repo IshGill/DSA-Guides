@@ -318,6 +318,8 @@ def isValid(self, s):
 # Queues
 # Priority Queues/Heaps
 # Trees
+## BFS = Breadth First Search = Level Order Traversals = Queues
+## DFS = Depth First Search = Preorder, Inorder, Postorder Traversals = Stacks
 ## BFS Binary Tree
 1. Check if the root is empty, hence if the tree is empty.
 2. We are going to use queues to solve this problem as the queue FIFO property works well here.
