@@ -261,6 +261,34 @@ def remove_dupes(linked_list):
         runner = current.get_next()  # Reset runner to the next element of the linked list
         current = current.get_next()  # Reset current to the next element of the linked list
 ```
+## Copy list with random pointer 
+* We make a hash table and simply do two passes through our given linked list in question.
+* First pass we make the key of the hash table equal to the reference in memory of each respective node in the linked list and the value in the hash table will be a NEW node element which has the same VALUE as the current node we are looking at.
+* So now we have a hash table which contains values which are nodes with no connections to any other nodes, they are just sitting there waiting to be connected up. We also have keys which are the memory references which allow us to index in with O(1) time.
+* We now do our second pass, we are now going the make the connections for the copied nodes in the hash table.
+* We set the next node of the copied node "hashMap[current].next" as the next node of the corresponding key in the hash table, meaning the next node of the original node in the linked list.
+* We set the random node for the copied node "hashMap[random].next" as the random node for the original node in the original linked list.
+* Make sure to check that the nodes do not equal none for random or next.
+* Finally we return the hashMap values which are going to be connected now as a linked list from the head value. 
+```
+def copyRandomList(head):
+    if not head: return None
+    current = head
+    hashMap = {}
+
+    while current:
+        hashMap[current] = Node(current.val, None, None)
+        current = current.next
+
+    current = head
+    while current:
+        if current.next:
+            hashMap[current].next = hashMap[current.next]
+        if current.random:
+            hashMap[current].random = hashMap[current.random]
+        current = current.next
+    return hashMap[head]
+```
 # Sorting & Searching
 # Stacks
 ## Valid parentheses
@@ -290,6 +318,125 @@ def isValid(self, s):
 # Queues
 # Priority Queues/Heaps
 # Trees
+## BFS Binary Tree
+1. Check if the root is empty, hence if the tree is empty.
+2. We are going to use queues to solve this problem as the queue FIFO property works well here.
+3. Initialize a queue to hold the current root node
+4. level is going to be an empty list/queue which we use to add in all the nodes at the particular level in the tree
+5. next queue is going to hold the nodes in the NEXT level of the binary tree
+6. result will store our nested list representation of the level order of the tree
+* The main idea is that starting off with the root, we loop thorugh all the nodes level by level, we add the nodes at each respective level to the level queue and we add their children to the next queue
+* After the end of each loop we transfer the nodes at the respective level into our results queue, we now want to look at the next level in the tree, hence we assign our queue to point to the next_queue variable which holds the next level nodes.
+* We empty the next_queue variable and level queues and repeat this same process until there are no more nodes left to visit.
+```
+ Definition for a binary tree node.
+ class TreeNode(object):
+     def __init__(self, val=0, left=None, right=None):
+         self.val = val
+         self.left = left
+         self.right = right
+def levelOrder(root):
+    if not root: return []
+    queue = [root]
+    level = []
+    next_queue = []
+    result = []
+    while queue:
+        for root in queue:
+            level.append(root.val)
+            if root.left:
+                next_queue.append(root.left)
+            if root.right:
+                next_queue.append(root.right)
+        result.append(level)
+        queue = next_queue
+        next_queue = []
+        level = []
+    return result
+```
+## DFS Preorder Recursive & Iterative
+* Recursive solution
+```
+# Preorder = print, left, right. DFS = moving down the tree. 
+def preorderTraversal(self, root):
+    return [root.val] + self.preorderTraversal(root.left) + self.preorderTraversal(root.right) if root != None else []
+```
+* Iterative solution
+* We use stacks for the iterative implementation of preorder
+* The idea is, set up the stack to initially hold the root node, then while the stack is not empty, follow the preorder protocol of node, left, right.
+* One thing to be very mindful of here is that we are doing everything in the OPPOSITE order of the traversal, as recall stacks have the LIFO property. ie a good example is to think of it has preorder = [node, left, right] then when using a stack we would have [right, left, node] as we WANT the node value first.
+* Pop the value at the top of the stack and append it to the results list, then append the correpsonding left and right children.
+* We keep repeating this process and derive the preorder traversal of the tree.
+```
+def preorderTraversal(self, root):
+    if not root: return []
+    stack = [root]
+    result = []
+    while stack:
+        root = stack.pop()
+        result.append(root.val)
+        if root.right:
+            stack.append(root.right)
+        if root.left:
+            stack.append(root.left)
+    return result
+```
+## DFS Inorder recursive and iterative
+* Recursive solution
+* Inorder = left, print, right. DFS = Moving down the binary tree, depth of the tree.
+```
+def inorderTraversal(self, root):
+    return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right) if root != None else []
+```
+* Iterative solution
+* Main idea is our main loop iterates while root or stack are both not empty/null.
+* The inner while loop is used to traverse to the left as far as possible. It build up our stack, and once we hit the leaf with no left child we break out of this loop
+* Once we break out of the left iterative loop, we pop off the last element pushed onto the stack, so the last left node with no left child, we append this value to our results list
+* We then want to iterate right and visit the right subtree of the same node. When we iterate right once, our inner left loop will rebegin and complete the process again of finding the leftmost node
+* Notice the pattern here! Inorder is left, node, right. We have two while loops, we begin by always going as far left as possible, when that break we add our node at the top of the stack, then we go right. Make sense yea.
+```
+def inorderTraversal(self, root):
+    stack, result = [], []
+    while root or stack:
+        while root:
+            stack.append(root)
+            root = root.left
+        root = stack.pop()
+        result.append(root.val)
+        root = root.right
+    return result
+```
+## DFS Postorder recursive and iterative 
+* Recursive solution
+* Postorder = left, right, print. 
+```
+def postorderTraversal(root):
+    return self.postorderTraversal(root.left) + self.postorderTraversal(root.right) + [root.val] if root else []
+```
+* Iterative solution
+* [EXPLANATION]
+```
+def preorderTraversal(self, root):
+    if not root: return []
+    stack = [root]
+    result = []
+    while stack:
+        root = stack.pop()
+        if root.right:
+            stack.append(root.right)
+        if root.left:
+            stack.append(root.left)
+        result.append(root.val)
+    return result
+```
+## Max depth of a binary tree
+* [EXPLANATION]
+```
+def maxDepth(self, root):
+    if root is None:
+        return 0
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+```
 # Hash tables
 # Dynamic Programming 
 ## Kadane's Algorithm - Maximum Subarray
