@@ -449,6 +449,20 @@ def checkSubtrees(t1, t2):
     if t1 is None or t2 is None: return False
     return t1.val == t2.val and checkSubtrees(t1.left, t2.right) and checkSubtrees(t1.right, t2.left)
 ```
+## PathSum
+1. Main idea here is just to understand the recursion, each call we are recursing into the left and right subtrees continuously until we hit our elif statement
+2. Our elif condition simply checks if the node we are currently at is a leaf and if the value of that leaf is the remainder needed to deduct from targetSum, to reach our target.
+3. Important thing here is to just visualize the traversal of the tree, the fact that every node in the tree will be visited and that each recursive call we are deducting our current node value from the targetSum
+4. By deducting the current node value from the targetSum we are doing the same operation as adding up each node in the respective path to see if it equals the targetSum.
+```
+def hasPathSum(self, root, targetSum):
+    if root == None:
+        return False
+    elif root.left == None and root.right == None and targetSum - root.val == 0:
+        return True
+    else:
+        return self.hasPathSum(root.left, targetSum - root.val) or self.hasPathSum(root.right, targetSum - root.val)
+```
 # Hash tables
 # Dynamic Programming 
 ## Kadane's Algorithm - Maximum Subarray
