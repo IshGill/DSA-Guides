@@ -128,6 +128,56 @@ def threeSum(nums):
                 windowEnd -= 1
     return triples
 ```
+## Building trees from preorder, inorder and postorder traversal lists
+The pattern here is that we always use the inorder traversal list to build the tree. In particular, we can dervie the root indexes easily from both preorder and postorder as preorder root = 0th element and postorder root = -1 element in respective lists. Now we know that once we have the main root we can identify the left and right subtrees from the inorder list. We then recursively keep popping off the indexes and assigning them as roots from the pre/postorder traversal lists, building left subtree to right subtree recursivley for preorder and right subtree to left subtree recursivley for postorder. 
+```
+def buildTree(inorder, postorder):
+    def recurse(inorder, postorder):
+        if not inorder or not postorder: return
+        root = TreeNode(postorder.pop())
+        root.right = recurse(inorder[inorder.index(root.val) + 1:], postorder)
+        root.left = recurse(inorder[:inorder.index(root.val)], postorder)
+        return root
+
+    return recurse(inorder, postorder)
+```
+```
+def buildTree(preorder, inorder):
+    def recurse(preorder, inorder):
+        if not inorder: return
+        root = TreeNode(preorder.pop(0))
+        mid = inorder.index(root.val)
+        root.left = recurse(preorder, inorder[:mid])
+        root.right = recurse(preorder, inorder[mid + 1:])
+        return root
+    return recurse(preorder, inorder)
+```
+
+However, we can optimize this by using a hash table and "binary search" pattern. All we do is assign the inorder indexes and corresponding values to the hash table, hence we get O(1) searching/indexing time for finding the mid, and instead of the lists, we pass to min and max indexes which we increment in respect to mid, so similar to a binary search.
+*OPTIMAL
+```
+def buildTree(preorder, inorder):
+    hashMap = {value: index for index, value in enumerate(inorder)}
+    def recurse(minVal, maxVal):
+        if minVal > maxVal: return
+        root = TreeNode(preorder.pop(0))
+        mid = hashMap[root.val]
+        root.left = recurse(minVal, mid - 1)
+        root.right = recurse(mid + 1, maxVal)
+        return root
+    return recurse(0, len(inorder) - 1)  # (36 ms, faster than 99.21%, 18.1 MB, less than 90.83%)
+```
+```def buildTree(inorder, postorder):
+    hashMap = {inorder[i]: i for i in range(len(inorder))}
+    def recurse(minVal, maxVal):
+        if minVal > maxVal: return
+        root = TreeNode(postorder.pop())
+        midVal = hashMap[root.val]
+        root.right = recurse(midVal + 1, maxVal)
+        root.left = recurse(minVal, midVal - 1)
+        return root
+    return recurse(0, len(inorder) - 1)
+```
 # Strings
 ## License Key Formatting 
 All we need to do with this question is firstly clean up the given string S by making it uppercase and replacing all instances of - with empty strings.
@@ -498,6 +548,35 @@ def buildTree(inorder, postorder):
         root.left = recurse(minVal, midVal - 1)
         return root
     return recurse(0, len(inorder) - 1)
+```
+## Build binary tree from inorder and preorder traversal lists OPTIMIZED
+* This is the optimal way to build a binary tree using inorder and preorder lists.
+* Once again same pattern as building a postorder and inorder tree algorithm. Alll we are doing is just popping from the front of the preorder list
+* Remember this hashmap and binary search sort of pattern!
+```
+def buildTree(preorder, inorder):
+    hashMap = {value: index for index, value in enumerate(inorder)}
+    def recurse(minVal, maxVal):
+        if minVal > maxVal: return
+        root = TreeNode(preorder.pop(0))
+        mid = hashMap[root.val]
+        root.left = recurse(minVal, mid - 1)
+        root.right = recurse(mid + 1, maxVal)
+        return root
+    return recurse(0, len(inorder) - 1)  # (36 ms, faster than 99.21%, 18.1 MB, less than 90.83%)
+```
+## Build binary tree from preorder traversal list using indexes
+* Here we build a tree using just the preorder list and a index.
+* The idea here is simply in a preorder list, every element at the ODD index is at the left subtree and every element at an EVEN index is in the right subtree * 2 for both.
+```
+def buildTree(preorder, inorder):
+    def indexConstruct(preorder, index):
+        if index >= len(preorder): return
+        root = TreeNode(preorder[index])
+        root.left = indexConstruct(preorder, 2 * index + 1)
+        root.right = indexConstruct(preorder, 2 * index + 2)
+        return root
+    return indexConstruct(preorder, 0)
 ```
 # Hash tables
 # Dynamic Programming 
