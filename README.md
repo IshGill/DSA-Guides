@@ -339,6 +339,15 @@ def copyRandomList(head):
         current = current.next
     return hashMap[head]
 ```
+## Majority Element in Array
+```
+class Solution {
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        return nums[nums.length/2];
+    }
+}
+```
 # Sorting & Searching
 # Stacks
 ## Valid parentheses
