@@ -587,24 +587,6 @@ def buildTree(preorder, inorder):
         return root
     return indexConstruct(preorder, 0)
 ```
-# Hash tables
-# Dynamic Programming 
-## Kadane's Algorithm - Maximum Subarray
-The way to approach the maximum Subarray problem is by using Kadane's algorithm. How Kadane's algorithm works is, we start off with the first index element in the array. We set our current max and global max to this element. We then want to iterate through the remainder of the array, we want to build up the sum in our current max variable. However, what we are going to do is always take the maximum between the current array elemet (list[i]) and the current array element plus whatever we have in our current sub array so (list[i] + current_max). This was we only take the maximum sub array in each iteration, this is how we build up our current maximum sub array. Then each iteration, we ask is the current sum of our current_max subarray LARGER than the sum in the global_max subarray? We the update accordingly. Finally we are left with the largest subarray sum in global_max. 
-```
-def maxSubArray(nums):
-    # Initalize two variables, current and global max to point at the first element in the array
-    current_max = global_max = nums[0]
-    #Iterate from the 1st index in the array till the end, we skip the 0th index because we are already looking at it with curret_max and global_max
-    for i in range(1, len(nums)):
-        # Every iteration, we ask, is the current array value greater than the current array value plus the previous array value, we ask this ofcourse as there may be negative elements
-        # Which decrease our total maximum sum, which we do not want, we want the maximum.
-        current_max = max(nums[i], nums[i] + current_max)
-        # Next we keep updating our global maximum aslong as current_max is growing!
-        if current_max > global_max:
-            global_max = current_max
-    return global_max
-```
 ## Populating Next Right Pointers in Each Node Only Perfect Binary Tree
 * Idea is we have a perfect binary tree. So we know that means that at each level there is 2**level-1 nodes.
  1. Lets start at the root of the binary tree and assign that value to leftmost.
@@ -668,6 +650,24 @@ class NextRightPointerBT {
         } return root;
     }   
 }
+```
+# Hash tables
+# Dynamic Programming 
+## Kadane's Algorithm - Maximum Subarray
+The way to approach the maximum Subarray problem is by using Kadane's algorithm. How Kadane's algorithm works is, we start off with the first index element in the array. We set our current max and global max to this element. We then want to iterate through the remainder of the array, we want to build up the sum in our current max variable. However, what we are going to do is always take the maximum between the current array elemet (list[i]) and the current array element plus whatever we have in our current sub array so (list[i] + current_max). This was we only take the maximum sub array in each iteration, this is how we build up our current maximum sub array. Then each iteration, we ask is the current sum of our current_max subarray LARGER than the sum in the global_max subarray? We the update accordingly. Finally we are left with the largest subarray sum in global_max. 
+```
+def maxSubArray(nums):
+    # Initalize two variables, current and global max to point at the first element in the array
+    current_max = global_max = nums[0]
+    #Iterate from the 1st index in the array till the end, we skip the 0th index because we are already looking at it with curret_max and global_max
+    for i in range(1, len(nums)):
+        # Every iteration, we ask, is the current array value greater than the current array value plus the previous array value, we ask this ofcourse as there may be negative elements
+        # Which decrease our total maximum sum, which we do not want, we want the maximum.
+        current_max = max(nums[i], nums[i] + current_max)
+        # Next we keep updating our global maximum aslong as current_max is growing!
+        if current_max > global_max:
+            global_max = current_max
+    return global_max
 ```
 ## Jump Game
 *  We use a greedy backtracking approach. It is quite simple.
