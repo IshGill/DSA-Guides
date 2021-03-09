@@ -685,7 +685,23 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 * Case 2: Is the right node None and left node the same value as the parent? If so then return True as valid univalue subtree.
 * Case 3: As we have a OR statement if both children are the same value as the root we would return True anyway.
 8. So in all of these instances if we returned True this implies we have a univalue subtree hence increment the counter. Else return False, this is NOT a univalue subtree as the parent is DIFFERENT. So return to the previous call and repeat the recursion.
+```
+def countUnivalSubtrees(self, root):
+    self.count = 0
+    self.recurse(root)
+    return self.count
 
+
+def recurse(self, root):
+    if not root: return True
+    left = self.recurse(root.left)
+    right = self.recurse(root.right)
+    if left == True and right == True and (root.left == None or root.left.val == root.val) and (
+            root.right == None or root.right.val == root.val):
+        self.count += 1
+        return True
+    return False
+```
 # Hash tables
 # Dynamic Programming 
 ## Kadane's Algorithm - Maximum Subarray
