@@ -839,7 +839,7 @@ public class WordLadder {
 ```
 ## Topological Sort
 ![1](https://user-images.githubusercontent.com/57751792/110879693-4bef8280-8342-11eb-9f53-09fdae5e5df6.jpg)
-
+![1](https://user-images.githubusercontent.com/57751792/110879708-501ba000-8342-11eb-9a5c-5ea13d3f4260.png)
 # Hash tables
 # Dynamic Programming 
 ## Kadane's Algorithm - Maximum Subarray
