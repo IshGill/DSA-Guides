@@ -1,5 +1,5 @@
 # DSA and Leetcode walkthroughs 
-My walkthroughs, designed to help build solid fundamentals and understanding for concepts in data structures and algorithms, and how to identify patterns and efficiently solve various leetcode problems.  
+This project contains comprehensive walkthroughs for how to solve data structures and algorithm related problems. I detail how I derived my solution, algorithms, and how to build intuition and discover patterns to solve these problems efficiently.
 
 # Patterns
 ## Sliding Window
