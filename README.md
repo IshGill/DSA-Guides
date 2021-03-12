@@ -837,6 +837,8 @@ public class WordLadder {
     }
 }
 ```
+## Topological Sort
+![1](https://user-images.githubusercontent.com/57751792/110879693-4bef8280-8342-11eb-9f53-09fdae5e5df6.jpg)
 
 # Hash tables
 # Dynamic Programming 
