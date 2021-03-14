@@ -840,6 +840,43 @@ public class WordLadder {
 ## Topological Sort
 ![1](https://user-images.githubusercontent.com/57751792/110879693-4bef8280-8342-11eb-9f53-09fdae5e5df6.jpg)
 ![1](https://user-images.githubusercontent.com/57751792/110879708-501ba000-8342-11eb-9a5c-5ea13d3f4260.png)
+## Course Schedule II
+* We have n courses which means we have n nodes in our graph. 
+* If we have a cycle we return [] as we have an impossible ordering of courses. ie [[1, 0], [0, 1]].
+* This ordering means to take course 1 we need to take course 0 and to take course 0 we need to take course 1, hence impossible, hence cycle.
+* Also watchout for edgecases such as empty list.
+* We will use Topological sort and DFS.
+1. Build an adjacency map, this will hold each prereq and its "children" hence the courses which are available after taking this prereq.
+2. Build of DFS recursive function to visit the nodes in the graph 
+3. Make a output list to add the topological order of the courses and two sets which contain the visited nodes and check for cycles
+```
+def findOrder(self, numCourses, prerequisites):
+    prereq = {i:[] for i in range(numCourses)}
+    for course, prereqs in prerequisites:
+        prereq[course].append(prereqs)
+
+    output = []
+    visit, cycle = set(), set()
+
+    def dfs(courses):
+        if courses in cycle:
+            return False
+        if courses in visit:
+            return True
+
+        cycle.add(courses)
+        for i in prereq[courses]:
+            if dfs(i) == False: return False
+        cycle.remove(courses)
+        visit.add(courses)
+        output.append(courses)
+        return True
+
+    for i in range(numCourses):
+        if dfs(i) == False:
+            return []
+    return output
+```
 # Hash tables
 # Dynamic Programming 
 ## Kadane's Algorithm - Maximum Subarray
