@@ -1,0 +1,26 @@
+def findOrder(self, numCourses, prerequisites):
+    prereq = {i:[] for i in range(numCourses)}
+    for course, prereqs in prerequisites:
+        prereq[course].append(prereqs)
+
+    output = []
+    visit, cycle = set(), set()
+
+    def dfs(courses):
+        if courses in cycle:
+            return False
+        if courses in visit:
+            return True
+
+        cycle.add(courses)
+        for i in prereq[courses]:
+            if dfs(i) == False: return False
+        cycle.remove(courses)
+        visit.add(courses)
+        output.append(courses)
+        return True
+
+    for i in range(numCourses):
+        if dfs(i) == False:
+            return []
+    return output
