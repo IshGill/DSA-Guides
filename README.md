@@ -1,8 +1,47 @@
 # DSA and Leetcode walkthroughs 
 This project contains comprehensive walkthroughs for how to solve data structures and algorithm related problems. I detail how I derived my solution, algorithms, and how to build intuition and discover patterns to solve these problems efficiently.
 
-# Patterns
-## Sliding Window
+## Topological Sort
+![1](https://user-images.githubusercontent.com/57751792/110879693-4bef8280-8342-11eb-9f53-09fdae5e5df6.jpg)
+![1](https://user-images.githubusercontent.com/57751792/110879708-501ba000-8342-11eb-9a5c-5ea13d3f4260.png)
+## Course Schedule II - Topological Sort & DFS Application
+* We have n courses which means we have n nodes in our graph. 
+* If we have a cycle we return [] as we have an impossible ordering of courses. ie [[1, 0], [0, 1]].
+* This ordering means to take course 1 we need to take course 0 and to take course 0 we need to take course 1, hence impossible, hence cycle.
+* Also watchout for edgecases such as empty list.
+* We will use Topological sort and DFS.
+1. Build an adjacency map, this will hold each prereq and its "children" hence the courses which are available after taking this prereq.
+2. Build of DFS recursive function to visit the nodes in the graph 
+3. Make a output list to add the topological order of the courses and two sets which contain the visited nodes and check for cycles
+```
+def findOrder(self, numCourses, prerequisites):
+    prereq = {i:[] for i in range(numCourses)}
+    for course, prereqs in prerequisites:
+        prereq[course].append(prereqs)
+
+    output = []
+    visit, cycle = set(), set()
+
+    def dfs(courses):
+        if courses in cycle:
+            return False
+        if courses in visit:
+            return True
+
+        cycle.add(courses)
+        for i in prereq[courses]:
+            if dfs(i) == False: return False
+        cycle.remove(courses)
+        visit.add(courses)
+        output.append(courses)
+        return True
+
+    for i in range(numCourses):
+        if dfs(i) == False:
+            return []
+    return output
+```
+# Sliding Window Patterns
 Use the sliding window pattern whenever you need to work with arrays, linked lists or any data structure where the elements need to be iterated through in a contiguous order. Sliding window works well as we visit the elements only once hence avoid duplicates or constantly revisiting elements as seen with brute force approaches. The main takeaway here should be that the sliding window pattern should be the first thing which comes to mind when doing anything which involves subsets of any given set ie subarrays of an array.
 ## Fixed length sliding window problem - Maximum sum for a length 3 subarray in a given array
 Fixed length sliding window means that the windows size does not change, hence, the subarray size we are looking at will never change, we are always looking at the same number of elements. For this problem all we need to do is once our sliding window hits the fixed size given in the question we simply increment both window_start and window_end and take the max of each contiguous fixed window until we reach the end of the array.
@@ -882,46 +921,6 @@ public class WordLadder {
         return allPossSeqs; // Return array of all possible combinations of passed argument currentWord
     }
 }
-```
-## Topological Sort
-![1](https://user-images.githubusercontent.com/57751792/110879693-4bef8280-8342-11eb-9f53-09fdae5e5df6.jpg)
-![1](https://user-images.githubusercontent.com/57751792/110879708-501ba000-8342-11eb-9a5c-5ea13d3f4260.png)
-## Course Schedule II
-* We have n courses which means we have n nodes in our graph. 
-* If we have a cycle we return [] as we have an impossible ordering of courses. ie [[1, 0], [0, 1]].
-* This ordering means to take course 1 we need to take course 0 and to take course 0 we need to take course 1, hence impossible, hence cycle.
-* Also watchout for edgecases such as empty list.
-* We will use Topological sort and DFS.
-1. Build an adjacency map, this will hold each prereq and its "children" hence the courses which are available after taking this prereq.
-2. Build of DFS recursive function to visit the nodes in the graph 
-3. Make a output list to add the topological order of the courses and two sets which contain the visited nodes and check for cycles
-```
-def findOrder(self, numCourses, prerequisites):
-    prereq = {i:[] for i in range(numCourses)}
-    for course, prereqs in prerequisites:
-        prereq[course].append(prereqs)
-
-    output = []
-    visit, cycle = set(), set()
-
-    def dfs(courses):
-        if courses in cycle:
-            return False
-        if courses in visit:
-            return True
-
-        cycle.add(courses)
-        for i in prereq[courses]:
-            if dfs(i) == False: return False
-        cycle.remove(courses)
-        visit.add(courses)
-        output.append(courses)
-        return True
-
-    for i in range(numCourses):
-        if dfs(i) == False:
-            return []
-    return output
 ```
 ## Validate a BST
 ![1](https://user-images.githubusercontent.com/57751792/111106805-a561e680-85ba-11eb-9731-bdda7b812990.jpg)
