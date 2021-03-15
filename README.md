@@ -923,6 +923,26 @@ def findOrder(self, numCourses, prerequisites):
             return []
     return output
 ```
+## Validate a BST
+![1](https://user-images.githubusercontent.com/57751792/111106805-a561e680-85ba-11eb-9731-bdda7b812990.jpg)
+```
+public class IsValidBST {
+    public boolean isValidBST(TreeNode root) {
+        return DFS(root, null, null);
+    }
+
+    private boolean DFS(TreeNode root, Integer low, Integer high) {
+        if (root == null) return true;
+
+        if (low != null && low >= root.val)
+            return false;
+        if (high != null && high <= root.val)
+            return false;
+        return DFS(root.left, low, root.val) && DFS(root.right, root.val, high);
+    }
+}
+```
+
 # Hash tables
 # Dynamic Programming 
 ## Kadane's Algorithm - Maximum Subarray
