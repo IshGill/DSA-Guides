@@ -588,6 +588,8 @@ public class LongestIncreasingPathMatrix {
 }
 ```
 ## Evaluate division
+![1](https://user-images.githubusercontent.com/57751792/111568715-19dc9580-8806-11eb-90b8-91b5015d5008.jpg)
+![1](https://user-images.githubusercontent.com/57751792/111568648-fca7c700-8805-11eb-8471-88e31c82cb64.png)
 ```
 def calcEquation(self, equations, values, queries):
     # Step 1: Build the graph
