@@ -1,7 +1,7 @@
 # DSA and Leetcode walkthroughs 
 This project contains comprehensive walkthroughs for how to solve data structures and algorithm related problems. I detail how I derived my solution, algorithms, and how to build intuition and discover patterns to solve these problems efficiently.
 
-## Topological Sort
+# Topological Sort
 ![1](https://user-images.githubusercontent.com/57751792/110879693-4bef8280-8342-11eb-9f53-09fdae5e5df6.jpg)
 ![1](https://user-images.githubusercontent.com/57751792/110879708-501ba000-8342-11eb-9a5c-5ea13d3f4260.png)
 ## Course Schedule II - Topological Sort & DFS Application
@@ -218,6 +218,44 @@ def buildTree(preorder, inorder):
     return recurse(0, len(inorder) - 1)
 ```
 # Recursion
+# Backtracking pattern 
+## 1. What is backtracking? 
+* Choice, constraint, goal. 
+* Choice = What do you want to do at X? ie if using backtracking to solve a sudoku puzzle, what do you want to do at each cell is your "Choice". Choice also = "Decision space".
+* Constraints = Restrictions of decision space. ie only values between 2-9.
+* Goal = What is the end goal? What are we trying to accompolish? How can we break down this problem into pieces and recusivley solve this with backtracking?
+## 2. Backtracking example:
+```
+def letterCombinations(self, digits):
+    if digits == "":
+        return []
+    hash_map = {1: [], 2: ["a", "b", "c"], 3: ['d', 'e', 'f'], 4: ['g', 'h', 'i'], 5: ['j', 'k', 'l'],
+                6: ['m', 'n', 'o'], 7: ['p', 'q', 'r', 's'], 8: ['t', 'u', 'v'], 9: ['w', 'x', 'y', 'z']}
+    def backTrack(path, index):
+        if index == len(digits):
+            combinations.append("".join(path))
+            return
+        else:
+            curr_key_letters = hash_map[int(digits[index])]
+            for letter in curr_key_letters:
+                path.append(letter)
+                backTrack(path, index + 1)
+                path.pop()
+
+    combinations, path = [], []
+    backTrack(path, 0)
+    return combinations
+```
+## Explanation:
+* What is happening here is that we are given a graph, each node in the graph has 3 or 4 children which are alphabet letters and the node value itself is a numerical digit.
+* We need to find all possible combinations given X digits. For example, given digits = "23" we would have [ad, ae, af, bd, be, bf, cd, ce, cf]. Now I want you to notice something very important here. The fact that I said "ALL POSSIBLE COMBINATIONS" should make you think of recursion and backtracking.
+* So how do we do this? 
+* We need to follow backtracking methodology!
+* Make a choice: What do you want to do at each letter? We want to take each 0th index digit in the digits string and add to it all of the 1th index digits string letters.
+* What are the constraints? Not many! Just don't repeat any strings.
+* What is the goal? The sub goal at each level is to attain a string which has the same length as digits and is a combination of digits[0] letter and digits[1] letter.
+## Lets walk through the code:
+* The most important part of the code is the for loop, what is happening is we intially start with looking at the 0th digit letters in the hash map, this is going to be our "upper level" for loop, we append the initial letter to our constructor list, we then recurse, we move on to digits[1] letters in the hash map, now we rebegin our for loop but this time our letters are the 1th index letters of digits, ie if digits = 23, then upper level for loop = 2 = [a, b, c] and recursive level for loop = 3 = [d, e, f]. Then we add our current recurisve level letter to our consturctor list which already contains the first letter of digits[0]. Now we would have [a,d] for example. Awesome, we have our first string, we have solved one of the sub problems. Now we recurse again passing index + 1 which is 2 which means we hit our base case, hence we have one of the requried strings for the out put so we can add it to the final list then return to the previous call. Now the previous call was made by index + 1, so we return there. Now that we have retured to this call we backtrack, we pop off the current letter from consturct list, which would leave us with [a], and move onto the next letter in the for loop! So now we are at e. Once we have visited all the letters for digits[1] we return to digits[0] which will pop off the current element and repeat the exact same backtracking process with the next letter.
 ## Letter combinations of a phone number
  1. So we are given from 0 to 4 possible digits and we need to find all possible letter combinations for these digits.
  * ie: "23" = 2 = [a, b, c] and b = [d, e ,f] hence 23 = [ad, ae, af, bd, be, bf, cd, ce, cf]
