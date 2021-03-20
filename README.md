@@ -256,7 +256,7 @@ def letterCombinations(self, digits):
 * What is the goal? The sub goal at each level is to attain a string which has the same length as digits and is a combination of digits[0] letter and digits[1] letter.
 ## Lets walk through the code:
 * The most important part of the code is the for loop, what is happening is we intially start with looking at the 0th digit letters in the hash map, this is going to be our "upper level" for loop, we append the initial letter to our constructor list, we then recurse, we move on to digits[1] letters in the hash map, now we rebegin our for loop but this time our letters are the 1th index letters of digits, ie if digits = 23, then upper level for loop = 2 = [a, b, c] and recursive level for loop = 3 = [d, e, f]. Then we add our current recurisve level letter to our consturctor list which already contains the first letter of digits[0]. Now we would have [a,d] for example. Awesome, we have our first string, we have solved one of the sub problems. Now we recurse again passing index + 1 which is 2 which means we hit our base case, hence we have one of the requried strings for the out put so we can add it to the final list then return to the previous call. Now the previous call was made by index + 1, so we return there. Now that we have retured to this call we backtrack, we pop off the current letter from consturct list, which would leave us with [a], and move onto the next letter in the for loop! So now we are at e. Once we have visited all the letters for digits[1] we return to digits[0] which will pop off the current element and repeat the exact same backtracking process with the next letter.
-## Letter combinations of a phone number
+## Letter combinations of a phone number - Backtracking
  1. So we are given from 0 to 4 possible digits and we need to find all possible letter combinations for these digits.
  * ie: "23" = 2 = [a, b, c] and b = [d, e ,f] hence 23 = [ad, ae, af, bd, be, bf, cd, ce, cf]
  2. Do some error checking in case of empty strings.
@@ -289,6 +289,36 @@ def letterCombinations(self, digits):
     combinations, path = [], []
     backTrack(path, 0)
     return combinations
+```
+## Generate parenthesis
+ 1. We use backtracking. Choice, constraints, goal.
+ 2. Choice = Will we place a open ( or closed ) bracket?
+ 3. Constraints:
+ * Can only place open if open < n, ie if n = 3 then we have at max ((( ))) of each bracket. Therefore if open = 4 we would have (((( thus invalid.
+ * Close < open in order to place close. If close == open then we could place )( which is invalid. If close > open then ))( hence invalid.
+ * Max size of the string is 2 * n, why? Because if n = 3 we can have 3 open brackets (((, and 3 closing bracket ))) at max hence 6 in total.
+ 4. Goal = find all possible valid combinations, if we stick to our constraints then we WILL get all valid options.
+ 5. Rest is simple, we basically just backtrack, nearly exact same story as letter combinations of a phone number, just rememeber we must pop off the recently added element from the stack for backtracking!
+ 6. Also, of course iteration starts at 0, 0 for open and closed as we haven't placed any brackets yet.
+```
+def generateParenthesis(self, n):
+    result, stack = [], []
+
+    def backTrack(open_count, close_count):
+        if len(stack) == (2 * n):
+            result.append("".join(stack))
+            return
+        if open_count < n:
+            stack.append("(")
+            backTrack(open_count + 1, close_count)
+            stack.pop()
+        if close_count < open_count:
+            stack.append(")")
+            backTrack(open_count, close_count + 1)
+            stack.pop()
+
+    backTrack(0, 0)
+    return result
 ```
 # Strings
 ## License Key Formatting 
