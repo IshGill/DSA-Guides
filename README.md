@@ -291,6 +291,8 @@ def letterCombinations(self, digits):
     return combinations
 ```
 ## Generate parenthesis
+![1](https://user-images.githubusercontent.com/57751792/111856575-8a172280-8990-11eb-9331-b5112a9b39f0.png)
+![1](https://user-images.githubusercontent.com/57751792/111856577-8b484f80-8990-11eb-8407-3e60794ff5fe.png)
  1. We use backtracking. Choice, constraints, goal.
  2. Choice = Will we place a open ( or closed ) bracket?
  3. Constraints:
