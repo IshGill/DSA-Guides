@@ -1280,7 +1280,7 @@ def trapping_rainwater(height):
 5. I want you to just imagine that in each iteration, we are working with ONE of the bits for each value at a time and computing the addition value and carry.
 6. Once the carry hits 0000 so fully 0 this indicates we are done, hence , return the value.
 7. Here is a visual depicition:
-8. ![1](https://user-images.githubusercontent.com/57751792/111942038-5f1b0300-8b37-11eb-80c6-dfb5abc641ab.png)
+![1](https://user-images.githubusercontent.com/57751792/111942038-5f1b0300-8b37-11eb-80c6-dfb5abc641ab.png)
 ```
 public class SumTwoIntegers {
     public static int SumTwoIntegers(int a, int b) {
