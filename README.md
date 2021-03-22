@@ -1261,3 +1261,35 @@ def trapping_rainwater(height):
         dpLeft[i] = (min(dpLeft[i], dpRight[i]) - height[i])
     return sum(dpLeft)
 ```
+# Bit Manipulation
+## Basics
+* 1 = True and 0 = False
+* AND = & = only true if true and true (1 & 1)
+* XOR = ^ = Only true if either true else false (1 & 0 or 0 & 1) NOT true for (1 & 1)
+* <<  = Shift left = Shifts all bits left by n, default input values is 0.
+* Please view image below for more detail
+![1](https://user-images.githubusercontent.com/57751792/111941299-9f798180-8b35-11eb-89e9-30c04a9ebdeb.png)
+## Sum two integers without + operator
+1. First of all if you ever see any question which asks to conduct a arithmetic operation without operators the first thing you should think of is bit manipulation.
+2. Now, Idea here is the following:
+* & = Carry
+* ^ = Addition
+* << = Shifting the carry.
+3. The AND operator is used to find the carry, try this out for yourself with some simple binary arithemtic, you will see that the AND input is equivalent to the carry BUT it just is not shifted left as it should be, which is where the bit shift operator comes in as it will shift the AND bit hence the carry bit left as it should each iteration.
+4. THe XOR ^ operator will be used to compute the addition each iteration but it will not include the carry, this is why & and << is needed.
+5. I want you to just imagine that in each iteration, we are working with ONE of the bits for each value at a time and computing the addition value and carry.
+6. Once the carry hits 0000 so fully 0 this indicates we are done, hence , return the value.
+7. Here is a visual depicition:
+8. ![1](https://user-images.githubusercontent.com/57751792/111942038-5f1b0300-8b37-11eb-80c6-dfb5abc641ab.png)
+```
+public class SumTwoIntegers {
+    public static int SumTwoIntegers(int a, int b) {
+        while (b != 0) {
+            int addition = a ^ b;
+            int carryShift = (a & b) << 1;
+            a = addition;
+            b = carryShift;
+        }
+        return a;
+    }
+```
