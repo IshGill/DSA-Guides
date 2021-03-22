@@ -1293,3 +1293,10 @@ public class SumTwoIntegers {
         return a;
     }
 ```
+## Bin() operator
+bin() will return the string binary represenation of a given integer value with 0b tacked on the front. Super useful opeartor so keep it in mind. 
+## Here is a nice implementation of bin() in a problem where we need to return number of 1 bits per elements in an array of integers
+```
+def countBits(self, nums):
+    return [len(bin(i)[2:].replace("0", "")) for i in range(nums + 1)]
+```
