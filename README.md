@@ -526,6 +526,283 @@ class Solution {
 }
 ```
 # Sorting & Searching
+## Binary Search: O(log n), cuts the problem size in half each iteration.
+```
+def binarySearch(sorted_array, element_to_find):
+    min_index = 0
+    max_index = len(sorted_array) - 1
+    while min_index <= max_index:
+        mid = (min_index + max_index) // 2
+        if sorted_array[mid] == element_to_find:
+            return mid
+        elif sorted_array[mid] < element_to_find:
+            min_index = mid + 1
+        elif sorted_array[mid] > element_to_find:
+            max_index = mid - 1
+    return -1
+```
+## Recursive implementation of binary search. O(log n) runtime as problem is cut in half but uses extra space for recursive call stack.
+```
+def recursiveBS(min_index, max_index, element_to_find, array):
+    index = 0
+    if min_index > max_index:
+        return -1
+    else:
+        mid = (min_index + max_index) // 2
+        if array[mid] == element_to_find:
+            index = mid
+            return index
+        elif array[mid] < element_to_find:
+            index = recursiveBS(mid + 1, max_index, element_to_find, array)
+        elif array[mid] > element_to_find:
+            index = recursiveBS(min_index, mid - 1, element_to_find, array)
+    return index
+
+
+def findIndex(array, element_to_find):
+    return recursiveBS(0, len(array)-1, element_to_find, array)
+```
+## Trinary search
+```
+def trinary_search(my_list, x):
+    min = 0
+    max = len(my_list) - 1
+    mid_points_computed = []
+    while min <= max:
+        mid1 = min + (max - min) // 3
+        mid2 = max - (max - min) // 3
+        mid_points_computed.append(mid1)
+        if x > my_list[mid1]:
+            mid_points_computed.append(mid2)
+        if my_list[mid1] == x:
+            return (mid1,mid_points_computed)
+        elif my_list[mid1] < x:
+            if my_list[mid2] == x:
+                return (mid2,mid_points_computed)
+            elif my_list[mid2] > x:
+                min = mid1 + 1
+                max = mid2 - 1
+            elif my_list[mid2] < x:
+                min = mid2 + 1
+        else:
+            max = mid1 - 1
+    return (-1,mid_points_computed)
+```
+## Bubble Sort 
+* Bubble sort sorting algorithm works by comparing the element at the current index with the element adjacent to it, hence its direct neighbour.
+* If the element which is adjacent is less than the current element, it will swap both elements. This repeats for every single element in the array.
+* Therefore, we call it bubble sort because the largest element in each iteration will bubble up to the top of the array.
+* We can also note that bubble sort would do the most work on an reverse sorted array such as [7,6,5,4,3,2,1] as it will have to swap every element.
+* Important to note that you should have a break statement in case there are no swaps conducted in the inner loop which indicates that the array is now in sorted order, hence, we can return.
+* Bubble sort time complexity is O(n^2)
+* Bubble sort space complexity is O(1), hence constant auxiliary space usage as everything is indeed happening in place.
+```
+def bubbleSort(array):
+    for i in range(1, len(array)):
+        swap = False
+        for n in range(len(array) - 1):
+            if array[n] > array[n + 1]:
+                array[n], array[n + 1] = array[n + 1], array[n]
+                swap = True
+        if swap == False:
+            break
+    return array
+print(bubbleSort([7, 6, 5, 4, 3, 2, 1]))
+```
+## Insertion sort
+* Insertion sort works by partitioning the array into sorted and unsorted sections.
+* Insertion sort will assume the first index in the array is already in sorted order.
+* It will be compare the last element in the sorted section with the first unsorted element in the array.
+* If the first unsorted element is less than the last sorted element it will swap these two elements, It will then continue to check the unsorted element with all of the elements in the sorted section.
+* Once it find a element in the sorted section less than the unsorted element or it hits the 0th index the while loop will break and we place the element there, thus adding it to our sorted section.
+* What makes insertion sort useful is the fact that you can add whatever conditions you want to sort the array by, ie you can sort by length, by last letter, literally anything you want and it's quite simple! All you need to d ois specify it in the while loop condition.
+* Insertion sort time complexity is O(n^2) and space complexity is O(1) so everything is happening in place.
+```
+def insertionSort(array):
+    for index in range(1, len(array)):
+        value = array[index]
+        i = index - 1
+        while i >= 0 and array[i] > value: # Change the condition here in order to sort in respect to a different parameter.
+            array[i + 1] = array[i]
+            array[i] = value
+            i -= 1
+    return array
+
+print(insertionSort([7,6,5,4,3,2,1]))
+
+def ReverseinsertionSort(array):
+    for index in range(1, len(array)):
+        value = array[index]
+        i = index - 1
+        while i >= 0 and array[i] < value: # Reverse sort
+            array[i + 1] = array[i]
+            array[i] = value
+            i -= 1
+    return array
+
+print(ReverseinsertionSort([7,6,5,4,3,2,1]))
+
+
+def LengthinsertionSort(array):
+    for index in range(1, len(array)):
+        value = array[index]
+        i = index - 1
+        while i >= 0 and len(array[i]) > len(value): # Length sort string array.
+            array[i + 1] = array[i]
+            array[i] = value
+            i -= 1
+    return array
+
+print(LengthinsertionSort(["goku", "vegeta", "gohan", "frieza", "Perfect cell"]))
+```
+## Selection sort
+* There are two ways to implement selection sort, one is if we sort from top down or bottom down. Both ways have the same principle so your fine with doing it either way, i prefer top down.
+* Selection sort will begin iteration from the end of the array, in each iteration it will find the largest element in the unsorted section (which is the entire array at iteration 0)/
+* It will swap the largest unsorted element with the first element in the unsorted section of the array which begins at the very end of the array.
+* Hence, you can imagine that in each iteration we are building the array from the top down.
+* Selection sort time complexity is O(n^2) and auxiliary space usage is O(1), so at least it's nice the it uses constant space.
+```
+# Top down, main idea is we go from the end of the list and swap the largest elements
+def selectionSort(array):
+    for i in range(len(array)-1, -1, -1):
+        largest = 0
+        for n in range(i + 1):
+            if array[n] > array[largest]:
+                largest = n
+        array[i], array[largest] = array[largest], array[i]
+    return array
+
+print(selectionSort([7,6,5,4,3,2,1]))
+
+# Bottom up, main idea is we go from the front of the list and swap the smallest elements
+def selectionSortBU(array):
+    for i in range(0, len(array)-1):
+        smallest = i
+        for n in range(i + 1, len(array)):
+            if array[n] < array[smallest]:
+                smallest = n
+        array[i], array[smallest] = array[smallest], array[i]
+    return array
+
+print(selectionSortBU([7,6,5,4,3,2,1]))
+```
+## Bogosort
+```
+import random
+def bogosort(list_of_elements):
+    n = len(list_of_elements)
+    while is_sorted(list_of_elements) == False:
+        shuffle(list_of_elements)
+
+def is_sorted(list_of_elements):
+    n = len(list_of_elements)
+    for i in range(0, n - 1):
+        if list_of_elements[i] > list_of_elements[i + 1]:
+            return False
+    return True
+
+def shuffle(list_of_elements):
+    n = len(list_of_elements)
+    for i in range(0, n):
+        random_index = random.randrange(0, n - 1)
+        list_of_elements[i], list_of_elements[random_index] = list_of_elements[random_index], list_of_elements[i]
+
+my_list = [1, 3, 4, 2]
+bogosort(my_list)
+print(my_list)
+```
+## Mergesort
+```
+def mergesort(a_list):
+    if len(a_list) > 1:
+        mid = len(a_list) // 2  # Finding the mid of the array
+        left_sublist = a_list[:mid]  # Dividing the array elements
+        right_sublist = a_list[mid:]  # into 2 halves
+        mergesort(left_sublist)  # Sorting the first half
+        mergesort(right_sublist)  # Sorting the second half
+        small_unsort_left = small_unsort_right = main_list_pos = 0
+
+# Copy data to temp arrays L[] and R[]
+        while small_unsort_left < len(left_sublist) and small_unsort_right < len(right_sublist):
+            if left_sublist[small_unsort_left] < right_sublist[small_unsort_right]:
+                a_list[main_list_pos] = left_sublist[small_unsort_left]
+                small_unsort_left += 1
+            else:
+                a_list[main_list_pos] = right_sublist[small_unsort_right]
+                small_unsort_right += 1
+            main_list_pos += 1
+
+    # Checking if any element was left
+        while small_unsort_left < len(left_sublist):
+            a_list[main_list_pos] = left_sublist[small_unsort_left]
+            small_unsort_left += 1
+            main_list_pos += 1
+        while small_unsort_right < len(right_sublist):
+            a_list[main_list_pos] = right_sublist[small_unsort_right]
+            small_unsort_right += 1
+            main_list_pos += 1
+    return a_list
+
+print(mergesort([8, 7, 6, 5, 4, 3, 2, 1]))
+```
+## Quicksort
+```
+def quick_sort(a_list):
+    if len(a_list) < 2:
+        return a_list
+    else:
+        pivot = a_list[0]
+        less = quick_sort([i for i in a_list if i < pivot])
+        greater = quick_sort([i for i in a_list if i > pivot])
+        return less + [pivot] + greater
+
+print(quick_sort([7,6,3,99]))
+```
+## Find the median in an array
+```
+def findMedianSortedArrays(nums1, nums2):
+    new_nums = []
+    # Edge cases
+    if len(nums1) == 0 and len(nums2) == 0:
+        return []
+    elif len(nums1) == 0 and len(nums2) != 0:
+        new_nums = nums2
+    elif len(nums2) == 0 and len(nums1) != 0:
+        new_nums = nums1
+    else:
+        new_nums = nums1 + nums2
+
+    if len(new_nums) == 1:
+        return float(new_nums[0])
+    new_nums.sort()
+    mid = (0 + len(new_nums) - 1) // 2
+    if len(new_nums) % 2 != 0:
+        return new_nums[mid]
+    else:
+        return (new_nums[mid + 1] + new_nums[mid]) / 2.0
+```
+## Quartile elements in an array
+* We want to print the values in the upper and lower quartile of our list
+* The lower quartile is the value which is 25% larger than all other values in the list
+* The upper quartile value is the value for which 75% of the list elements are smaller than
+* This is a simple process all we require is to give the value which is at the 25% and 75% indexes
+of the list.
+```
+def get_quartiles(list_of_numbers):
+    list_of_numbers.sort()
+    #We must sort the list!
+    lower_quartile = int(len(list_of_numbers) * 0.25)
+    #Simply take the lenth of the list and mutliply it by 0.25
+    #The length of the list in a percentage is 100% and we want 25% from this 100%
+    #Therefore when we multiply the length of the list by 0.25 we derive the value which
+    #is equivalent to 25% of the length of the list
+    upper_quartile = int(len(list_of_numbers) * 0.75)
+    #We want the 75% index value of the list. Therefore we mutiply by 0.75 which gives us
+    #the 75% index out of the 100% index of the list
+    median_quartile = int(len(list_of_numbers) * 0.5)
+    #This will give us the index right in the middle of the list
+    return list_of_numbers[lower_quartile], list_of_numbers[upper_quartile]
+```
 # Stacks
 ## Valid parentheses
 * Add only the open brackets to the stack
