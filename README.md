@@ -344,6 +344,17 @@ def fibM(n, memo={}):
         memo[n] = fibM(n-1) + fibM(n-2)
         return fibM(n-1) + fibM(n-2)
 ```
+# Math
+## Gaussian summation: n(n + 1)//2
+* Gaussian summation formula = n(n + 1)/2 this will give us the sum of all the natural numbers from 0 to n. Beautiful formula.
+```
+def missingNumber(self, nums):
+    # Remember the Gaussian summation formula! The sum of a sequence is n(n+1)/2
+    # This is a beautiful solution. The sum as the gauss formula gives us the sum of n natural numbers and we use that sum to figure out which value is missing as the sum of the nums array is going to give us the sum of n natural numbers also, minus one number from that set of n naturals, and we can easily find that number by taking the difference between the guassian and array sum.
+    gauss = len(nums) * (len(nums) + 1) // 2
+    num_sum = sum(nums)
+    return gauss - num_sum
+```
 # Strings
 ## License Key Formatting 
 All we need to do with this question is firstly clean up the given string S by making it uppercase and replacing all instances of - with empty strings.
@@ -1299,4 +1310,24 @@ bin() will return the string binary represenation of a given integer value with 
 ```
 def countBits(self, nums):
     return [len(bin(i)[2:].replace("0", "")) for i in range(nums + 1)]
+```
+## Missing number in unsorted array
+1. Recall XOR properties:
+* a ^ a = 0
+* a ^ 0 = a
+* XOR = True IFF values differ, if equal then False
+2. So this can be applied nicely to our problem, where we want to find the missing number in an array in O(n) time and O(1) space.
+3. Let len(nums) = 5 then xor = 5.
+4. Let nums = [2, 5, 3, 1, 6]
+5. Then we iterate through every element in nums and what we are doing is building an XOR value our XOR variable will look like this:
+6. xor = 5 ^ 2 ^ 0 ^ 5 ^ 5 ^ 1 ^ 5 ^ 3 ^ 2 ^ 5 ^ 1 ^ 3 ^ 5 ^ 1 ^ 4 ^ 5 ^ 6 ^ 5
+7. What we notice here is that every value appears at least twice EXCEPT for 4! Which is the missing value.
+8. Now due to the property of XOR of a ^ a = 0, all the numbers which appear multiple times will be 0 BUT the other property a ^ 0 = a will also be applied on the number which only appeared once.
+9. This number which only appears once is the missing value and the XOR operaton will find it as it will do a ^ 0 = a, which will be the remaining value left in the xor variable.
+```
+def missingNumber(self, nums):
+    xor = len(nums)
+    for i in range(len(nums)):
+        xor = xor ^ nums[i] ^ i
+    return xor
 ```
