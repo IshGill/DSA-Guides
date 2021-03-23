@@ -355,6 +355,49 @@ def missingNumber(self, nums):
     num_sum = sum(nums)
     return gauss - num_sum
 ```
+## Euclidean GCD algorithm
+```
+def getGCD(num1, num2):
+    while num1 % num2 != 0:
+        prev_num1 = num1
+        prev_num2 = num2
+        num1 = prev_num2
+        num2 = prev_num1
+    return num2
+```
+## Euclidean GCD algorithm Recursive
+```
+def recurisveGCD(num1, num2):
+    if num2 > num1:
+        return recurisveGCD(num2, num1)
+    elif num1 % num2 == 0:
+        return num2
+    else:
+        return recurisveGCD(num2, num1 % num2)
+```
+## All factors of a number
+```
+def getFactors(n):
+    return [i for i in range(1, n+1) if n % i == 0]
+```
+## Check if prime number
+```
+def checkPrime(n):
+    return "{} is not prime number".format(n) if len([i for i in range(2, n) if n % i == 0]) >= 1 else "{} is a prime number".format(n)
+```
+## Get all prime factors of a number
+```
+def getPrimeFactors(n):
+    i = 2
+    prime_factors = []
+    while i <= n:
+        if n % i == 0:
+            prime_factors.append(i)
+            n /= i
+        else:
+            i += 1
+    return prime_factors
+```
 # Strings
 ## License Key Formatting 
 All we need to do with this question is firstly clean up the given string S by making it uppercase and replacing all instances of - with empty strings.
