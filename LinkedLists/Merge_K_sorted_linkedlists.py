@@ -1,6 +1,6 @@
 # Given a list which contains K linked lists to merge them into one sorted linked list the simplest idea seems to be to transfer all the elements in the list of linked lists into a single linked list
 # The transfer all the elements of the single linked list into a simple array, sort the array, then make a new linked list add all the elements from the array in sorted order and voila!
-# Time complexity o(n) as we need to iterate though the linked lists and auxillary space usage is o(n) to! So we can imporve there!
+# Time complexity o(n log n) as we need to iterate though the linked lists and auxillary space usage is o(n) to! So we can improve there!
 
 class Solution(object):
     def mergeKLists(lists):
