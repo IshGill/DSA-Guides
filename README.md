@@ -528,6 +528,87 @@ def nextClosestTime(time):
 ```
 
 # Arrays
+## Contains duplicate
+- Pattern: Dictionary to count unique elements pattern
+- Complexity: O(n) time as we visit all n elements in the array and O(n) space as if all values are unique we need a new dict of size N
+- Explanation:
+1. Just use a dictionary/hashmap to get all of the unique values, very straight forward. 
+
+- Algorithm Python
+```
+def containsDuplicate(nums):
+    dict = {}
+    for i in nums:
+        if i not in dict:
+            dict[i] = 0
+        else:
+            dict[i] += 1
+    if sum(dict.values()) == 0:
+        return False
+    else:
+        return True
+
+print(containsDuplicate([1,2,3,1]))
+
+def containsDuplicateOneLiner(nums):
+    return len(set(nums)) != len(nums)
+
+print(containsDuplicateOneLiner([1,2,3,1]))
+```
+
+- Algorithm Java
+```
+class ContainsDuplicate {
+
+    static Boolean containsDuplicate(int[] nums) {
+        HashMap<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
+        for (int i: nums) {
+            if (!hashMap.containsKey(i)) {
+                hashMap.put(i, 0);
+            }
+            else {
+                int count = hashMap.get(i);
+                hashMap.put(i, count + 1);
+            }
+        }
+        int sum = 0;
+        for (int i: hashMap.values()) {
+            sum += i;
+        }
+        return sum == 0 ? false : true;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1,2,3,1};
+        System.out.println(containsDuplicate(nums));
+    }
+}
+```
+
+- Algorithm C#
+```
+class ContainsDuplicate {
+    static Boolean containsDuplicate(int[] nums) {
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        for (int i=0; i<nums.Length; i++) {
+            if (!dict.ContainsKey(nums[i])) {
+                dict.Add(nums[i], 0);
+            }
+            else {
+                dict[nums[i]] += 1;
+            }
+        }
+        int[] dictValues = dict.Values.ToArray();
+        int sum = dictValues.Sum(x => x);
+        return sum == 0 ? false:true;
+    }
+
+    static void Main(string[] args) {
+        int[] nums = {1,2,3};
+        Console.WriteLine(containsDuplicate(nums));
+    }
+}
+```
 ## Best time to buy and sell stock
 - Pattern: Min Max pattern
 - Complexity: O(n) time as we visit all n elements in the array and O(1) space
