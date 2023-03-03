@@ -448,6 +448,79 @@ def nextClosestTime(time):
             return totalNewTime
 ```
 # Arrays
+## TwoSum
+* Pattern: Hashmap 
+* Complexity: O(n) time and O(1) space
+* Explanation
+All you need to consider is given a number target, if we were to populate a dictionary given the nums array passed to the function where the dict key is the array value and dict value is the corresponding index. Then once we loop through each element in the array, we can do a simple calculation which is target - curr_loop_element = element_we_need. Given we now know the value of the element we need we can easily do a O(1) look up in our dictionary to check whether or not this element exists. If it does we are finished. 
+* Steps:
+1. Populate dict with parameter array values where key is array[i] and value is i.
+2. Loop through each element in the array
+3. Derive the value which we need to loop up by doing target - array[i].
+4: Check if this value exists in our dict
+5: Return list of indexes once value has been found
+* Algorithm Python
+```
+def twoSum(nums, target):
+    dict = {}
+    for i in nums:
+        if (target - i) in dict:
+            return [nums.index(i), dict[target-i]]
+    return -1 
+```
+* Algorithm Java
+```
+class Solution {
+    public static int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
+        for (int i=0; i<nums.length; i++) {
+            hashMap.put(nums[i], i);
+        }
+        for (int i=0; i<nums.length; i++) {
+            if (hashMap.containsKey(target-nums[i])) {
+                int[] ans = {i, hashMap.get(target-nums[i])};
+                return ans;
+            }
+        }
+        return null;
+    }
+    public static void main(String[] args) {
+        int[] nums = {2,7,11,15};
+        int target = 9;
+        System.out.println(Arrays.toString(twoSum(nums, target)));
+    }
+}
+```
+*Algorithm C#
+```
+using System;
+
+namespace twoSumProgram {
+class Solution {
+    public static int[] twoSum(int[] nums, int target) {
+        Dictionary<int, int> hashMap = new Dictionary<int, int>();
+        for (int i=0; i<nums.Length; i++) {
+            hashMap.Add(nums[i], i);
+        }
+        for (int i=0; i<nums.Length; i++) {
+            int valueRequired = target - nums[i];
+            if (hashMap.ContainsKey(valueRequired)) {
+                int[] ans = {i, hashMap[valueRequired]};
+                return ans;
+            }
+        }
+        return null;
+    }
+
+    public static void Main(string[] args) {
+        int[] nums = {2,7,11,15};
+        int target = 9;
+        int[] res = twoSum(nums, target);
+        Array.ForEach(res, i => Console.Write($"{i}, "));
+        }
+    }
+}
+```
 ## Missing ranges
 * Main idea is we think of lower and upper being included in the array
 1. We set prev as lower - 1 as we do not want to include the given ranges in the output
