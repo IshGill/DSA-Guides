@@ -1,0 +1,15 @@
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\Arrays.csproj.AssemblyReference.cache
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\Arrays.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\Arrays.AssemblyInfoInputs.cache
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\Arrays.AssemblyInfo.cs
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\Arrays.csproj.CoreCompileInputs.cache
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\bin\Debug\net7.0\Arrays.exe
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\bin\Debug\net7.0\Arrays.deps.json
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\bin\Debug\net7.0\Arrays.runtimeconfig.json
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\bin\Debug\net7.0\Arrays.dll
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\bin\Debug\net7.0\Arrays.pdb
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\Arrays.dll
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\refint\Arrays.dll
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\Arrays.pdb
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\Arrays.genruntimeconfig.cache
+C:\Users\ish-g\Desktop\Ish UoA Study\DSA\DSA-and-Leetcode-Walkthroughs\2023\Arrays\obj\Debug\net7.0\ref\Arrays.dll
