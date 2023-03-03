@@ -528,15 +528,96 @@ def nextClosestTime(time):
 ```
 
 # Arrays
+## Best time to buy and sell stock
+- Pattern: Min Max pattern
+- Complexity: O(n) time as we visit all n elements in the array and O(1) space
+- Explanation:
+1. Assign the first array element to the current min and max values, iterate through the array and whenever you come across values smaller than min or larger than max update the min and max values respectively. Only condition is that if you update the min value you also must update the max value as you cannot sell before you buy. 
 
+- Step:
+1. Define three integer variables minVal, maxVal and maxProfit to the 0th index element in the array
+2. Iterate through the array from the 1th index element to the end.
+3. Do maxVal = max(maxVal, curr_element) and minVal = min(minVal, curr_element)
+4. If minVal ever updates then you MUST update maxVal too as you cannot sell before you buy. 
+5. Update maxProfit each iteration with maxProfit = max(maxProfit, maxVal - minVal)
+
+- Algorithm Python:
+```
+def maxProfit(nums):
+    min_value = max_value = nums[0]
+    max_profit = 0 
+    for i in nums[1:]:
+        if i < min_value:
+            min_value = i
+            max_value = i
+        else:
+            max_value = max(i, max_value)
+            max_profit = max(max_profit, max_value - min_value)
+    return max_profit
+```
+
+- Algorithm Java:
+```
+class BestTimeBuySellStock {
+    public static int maxProfit(int[] nums) {
+        int minVal, maxVal, maxProfit;
+        minVal = maxVal = nums[0];
+        maxProfit = 0;
+        for (int i=1; i<nums.length; i++) {
+            if (nums[i] < minVal) {
+                minVal = nums[i];
+                maxVal = nums[i];
+            }
+            else {
+                maxVal = Math.max(maxVal, nums[i]);
+            }
+            maxProfit = Math.max(maxProfit, maxVal - minVal);
+        }
+        return maxProfit;
+    }
+
+    public static void main(String[] args) {
+        int[] prices = {7,1,5,3,6,4};
+        System.out.println(maxProfit(prices));
+    }
+}
+```
+
+- Algorithm C#
+```
+class Solution {
+    static int maxProfit(int[] nums) {
+        int minVal, maxVal, maxProfit;
+        minVal = maxVal = nums[0];
+        maxProfit = 0;
+        for (int i=1; i<nums.Length; i++) {
+            if (nums[i] < minVal) {
+                minVal = nums[i];
+                maxVal = nums[i];
+            }
+            else {
+                maxVal = Math.Max(maxVal, nums[i]);
+            }
+            maxProfit = Math.Max(maxProfit, maxVal - minVal);
+        }
+        return maxProfit; 
+    }
+
+    static void Main(string[] args) {
+        int[] prices = {7,1,5,3,6,4};
+        int ans = maxProfit(prices);
+        Console.WriteLine(ans);
+    }
+}
+```
 ## TwoSum
 
 - Pattern: Hashmap
 - Complexity: O(n) time and O(1) space
 - Explanation:
-  All you need to consider is given a number target, if we were to populate a dictionary given the nums array passed to the function where the dict key is the array value and dict value is the corresponding index. Then once we loop through each element in the array, we can do a simple calculation which is target - curr_loop_element = element_we_need. Given we now know the value of the element we need we can easily do a O(1) look up in our dictionary to check whether or not this element exists. If it does we are finished.
-- Steps:
+1. All you need to consider is given a number target, if we were to populate a dictionary given the nums array passed to the function where the dict key is the array value and dict value is the corresponding index. Then once we loop through each element in the array, we can do a simple calculation which is target - curr_loop_element = element_we_need. Given we now know the value of the element we need we can easily do a O(1) look up in our dictionary to check whether or not this element exists. If it does we are finished.
 
+- Steps:
 1. Populate dict with parameter array values where key is array[i] and value is i.
 2. Loop through each element in the array
 3. Derive the value which we need to loop up by doing target - array[i].

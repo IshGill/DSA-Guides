@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\Arrays.csproj": {}
+    "c:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\Arrays.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\Arrays.csproj": {
+    "c:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\Arrays.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\Arrays.csproj",
+        "projectUniqueName": "c:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\Arrays.csproj",
         "projectName": "Arrays",
-        "projectPath": "C:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\Arrays.csproj",
+        "projectPath": "c:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\Arrays.csproj",
         "packagesPath": "C:\\Users\\ish-g\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\obj\\",
+        "outputPath": "c:\\Users\\ish-g\\Desktop\\Ish UoA Study\\DSA\\DSA-and-Leetcode-Walkthroughs\\2023\\Arrays\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ish-g\\AppData\\Roaming\\NuGet\\NuGet.Config",
