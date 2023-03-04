@@ -528,6 +528,67 @@ def nextClosestTime(time):
 ```
 
 # Arrays
+## Maximum Subarray
+- Pattern: Kadane's algorithm or local and global max pattern
+- Complexity: O(n) time as we visit each element exactly once and O(1) space.
+- Explanation:
+1. Kadane's algorithm simply implies that to find a maximum subarray of a given array of length L, all we need to do at each step is take the maximum between the current element N and the current element + its prefix AKA the current element + the previous subarray where M denotes the previous subarray. Therefore to reiterate to apply Kadane's algorithm which will find the maximum subarray value we take the maximum between N and N + M where N is the current element in the array and M is the prefix array or subarray of N. This works as at each step we compute the best step in terms of the maximum value subarray. 
+- Steps:
+1. For loop to iterate through the array, assign the localMax and globalMax values to the 0th index element in the array
+2. Apply Kadane's algorithm at each step in the loop, so we check is the current element N > N + M where M is the prefix subarray of N.
+3. Keep updating localMax according to max(N, N + M) and globalMax according to max(globalMax, localMax)
+
+- Algorithm Python:
+```
+def maxSubarray(nums):
+    local_max = nums[0]
+    global_max = nums[0]
+    for i in nums[1:]:
+        local_max = max(i, local_max + i)
+        global_max = max(global_max, local_max)
+    return global_max
+
+print(maxSubarray([-2,1,-3,4,-1,2,1,-5,4]))
+```
+
+- Algorithm Java
+```
+class MaximumSubarray {
+    static int maximumSubarray(int[] nums) {
+        int localMax, globalMax;
+        localMax = globalMax = nums[0];
+        for (int i=1; i<nums.length; i++) {
+            localMax = Math.max(nums[i], (localMax + nums[i]));
+            globalMax = Math.max(globalMax, localMax);
+        }
+        return globalMax; 
+    }
+    public static void main(String[] args) {
+        int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
+        System.out.println(maximumSubarray(nums));
+    }
+}
+```
+
+- Algorithm C#
+```
+class MaximumSubarray {
+    static int maximumSubarray(int[] nums) {
+        int localMax, globalMax;
+        localMax = globalMax = nums[0];
+        for (int i=1; i<nums.Length; i++) {
+            localMax = Math.Max(nums[i], localMax + nums[i]);
+            globalMax = Math.Max(globalMax, localMax);
+        }
+        return globalMax;
+    }
+
+    public static void Main(string[] args) {
+        int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
+        Console.WriteLine(maximumSubarray(nums));
+    }
+}
+```
 ## Product of array except self
 - Pattern: Left pass right pass pattern or Prefix and suffix pattern
 - Complexity: O(n) time as we visit all elements once and O(n) space as we populate a new array with N elements
