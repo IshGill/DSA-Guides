@@ -528,6 +528,89 @@ def nextClosestTime(time):
 ```
 
 # Arrays
+## Product of array except self
+- Pattern: Left pass right pass pattern or Prefix and suffix pattern
+- Complexity: O(n) time as we visit all elements once and O(n) space as we populate a new array with N elements
+- Explanation:
+1. Consider what a prefix is and a suffix is in terms of an element in an array. Given the array nums = [1,2,3,4] and given the elements at the 2nd index ie nums[2] = 3. We can say that the prefix of the element at the 2nd index is the array from nums[:3] or just 1,2 and the suffix of the element at the 2nd index is nums[3:] or just 4. Know instead of trying to solve this problem in one for loop iteration, consider breaking the problem down into two sub problems, that being, the subproblem of finding the prefix of each element and suffix of each element. Now to find the prefix of each element we would do a left pass hence a simple for loop through the array and at each step we would assign the answer array with a value which would correspond to the product of all the prefix elements for a given element i in the nums array. 
+- For example: Given nums = [1,2,3,4] then the corresponding prefix array of nums would be [1, 1, 2, 6].
+- As 1 is the product prefix of the 0th index element in the nums array as there exists no prefix to the 0th index element in the.
+- 1 is also the product prefix of the 1th index element in the nums array as it has only one prefix value which is the 0th index element which implies we derive 1*1 which is 1
+- 2 is the product prefix of the 2nd index element in the nums array as the 2nd index elements prefix elements are 1 and 2 so 1 * 2 = 2
+- so on and so forth for the prefix product portion
+- Now for the suffix we simply repeat the same process however we just go from the end of the array so a reverse for loop and we also need to multiply the suffix product with the previously derived prefix product as this derives the product of the entire array except the current element.
+
+- Steps:
+1. Instantiate a new array of length nums
+2. Instantiate two new integer variables prefixProduct and suffixProduct
+3. Do a left pass of the nums array and take the prefix product of each element. The prefix product is the product of all the elements up until the current element. This also implies you would set the prefix product for each element in the n-1th iterations for loop. Ie Given [1,2,3,4] when you are at the 2nd index, you would set the prefix product for the 3rd index element. 
+4. Do a right pass of nums so a reverse for loop, in this loop you not only need to multiply by the original arrays suffix elements but also by the prefix arrays element at the current index in order to derive the prefix*suffix product for each element in the array.
+
+- Algorithm Python
+```
+def productExceptSelf(nums):
+    ans = [1] * len(nums)
+    product = 1
+    for i in range(len(nums)):
+        ans[i] = product
+        product *= nums[i]
+    
+    product = 1
+    for i in range(len(nums)-1, -1, -1):
+        ans[i] *= product
+        product *= nums[i]
+    return ans
+```
+
+- Algorithm Java
+```
+class ProductOfArrayExceptSelf {
+    static int[] productOfArrayExceptSelf(int[] nums) {
+        int[] ans = new int[nums.length];
+        int prefixProducts = 1;
+        for (int i=0; i<nums.length; i++) {
+            ans[i] = prefixProducts;
+            prefixProducts *= nums[i];
+        }
+        int suffixProducts = 1;
+        for (int i=nums.length-1; i>-1; i--) {
+            ans[i] *= suffixProducts;
+            suffixProducts *= nums[i];
+        }
+        return ans;
+    }    
+    public static void main(String[] args) {
+        int[] nums = {1,2,3,4};
+        System.out.println(Arrays.toString(productOfArrayExceptSelf(nums)));
+    }
+}
+```
+
+- Algorithm C#
+```
+class ProductOfArrayExceptSelf {
+    static int[] productOfArrayExceptSelf(int[] nums) {
+        int[] ans = new int[nums.Length];
+        int prefix, suffix;
+        prefix = 1;
+        for (int i=0; i<nums.Length; i++) {
+            ans[i] = prefix;
+            prefix *= nums[i];
+        }
+        suffix = 1;
+        for (int i=nums.Length-1; i>-1; i--) {
+            ans[i] *= suffix;
+            suffix *= nums[i];
+        }
+        return ans;
+    }
+
+    static void Main(string[] args) {
+        int[] nums = {1,2,3,4};
+        Console.WriteLine(string.Join(", ", productOfArrayExceptSelf(nums)));
+    }
+}
+```
 ## Contains duplicate
 - Pattern: Dictionary to count unique elements pattern
 - Complexity: O(n) time as we visit all n elements in the array and O(n) space as if all values are unique we need a new dict of size N
@@ -615,7 +698,7 @@ class ContainsDuplicate {
 - Explanation:
 1. Assign the first array element to the current min and max values, iterate through the array and whenever you come across values smaller than min or larger than max update the min and max values respectively. Only condition is that if you update the min value you also must update the max value as you cannot sell before you buy. 
 
-- Step:
+- Steps:
 1. Define three integer variables minVal, maxVal and maxProfit to the 0th index element in the array
 2. Iterate through the array from the 1th index element to the end.
 3. Do maxVal = max(maxVal, curr_element) and minVal = min(minVal, curr_element)
