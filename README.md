@@ -528,6 +528,85 @@ def nextClosestTime(time):
 ```
 
 # Arrays
+## Container with most water
+- Pattern: Dynamic sliding window pattern
+- Complexity: O(n) time as we visit each element once and O(1) space.
+- Explanation:
+1. Dynamic sliding windows where windowStart index is 0 and windowEnd index is array.length - 1. Each iteration we need to find the area and overall throughout the loop we need to derive the max area. The formula for area is area = width x height. To find width all we need to do is max index - min index so windowStart index - windowEnd index. For height we need to use the minimum height value between the two height values. Why the minimum height? Because we need to remember this questions is about containing water between two lines or pillars per se. So imagine you have two pillars with water between them and one is of height 9m and the other is of height 8m. Clearly the water is only up till the level of the smallest pillar so 8m otherwise it would spillover! That is why we must take the min height value between the height[windowStart] and height[windowEnd] values. Finally each iteration we of course update the global max area and then we need to adjust our pointers. For this dynamic sliding window pattern the pointer adjustment is simply decrementing or incrementing windowStart or windowEnd depending on which value is smaller as clearly we would rather want to derive a large height value next iteration.
+- Steps:
+1. Define windowStart, windowEnd, width, minHeight, area, MaxArea integer variables
+2. While loop while windowStart < windowEnd
+3. We need to find area, area = width x height
+4. width = windowEnd - windowStart
+5. minHeight = min(height[windowStart], height[windowEnd])
+6: Update global max area variable
+7. Update dynamic window pointers according to the smaller value
+
+- Algorithm Python:
+```
+def maxArea(height):
+    ws = 0
+    we = len(height) - 1
+    max_area = 0
+    while ws < we:
+        width = we - ws
+        min_height = min(height[ws], height[we])
+        area = width * min_height
+        max_area = max(max_area, area)
+        if height[ws] < height[we]:
+            ws += 1
+        else:
+            we -= 1
+    return max_area
+```
+
+- Algorithm Java
+```
+class Solution {
+    static int maxArea(int[] height) {
+        int ws, we, width, minHeight, area, maxArea;
+        ws = 0;
+        we = height.length - 1;
+        maxArea = 0;
+        while (ws < we) {
+            width = we - ws;
+            minHeight = Math.min(height[ws], height[we]);
+            area = width * minHeight;
+            maxArea = Math.max(maxArea, area);
+            if (height[ws] < height[we]) {
+                ws++;
+            } else {
+                we--;
+            }
+        }
+        return maxArea;
+    }
+}
+```
+
+- Algorithm C#
+```
+class ContainerWithMostWater {
+    static int maxArea(int[] height) {
+        int ws, we, width, minHeight, area, maxArea;
+        ws = 0;
+        we = height.Length - 1;
+        maxArea = 0;
+        while (ws < we) {
+            width = we - ws;
+            minHeight = Math.Min(height[ws], height[we]);
+            area = width * minHeight;
+            maxArea = Math.Max(maxArea, area);
+            if (height[ws] < height[we]) {
+                ws++;
+            } else {
+                we--;
+            }
+        }
+        return maxArea;
+    }
+}
+```
 ## Maximum Subarray
 - Pattern: Kadane's algorithm or local and global max pattern
 - Complexity: O(n) time as we visit each element exactly once and O(1) space.
