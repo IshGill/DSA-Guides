@@ -528,6 +528,133 @@ def nextClosestTime(time):
 ```
 
 # Arrays
+## Find minimum in a rotated sorted array
+- Pattern: Inflection point finding patter
+- Complexity: O(log n) time and O(1) space
+- Explanation:
+1. If the element at the 0th index is less than or equal to the element at the end of the array then the array is in proper sorted order so return the 0th index element. Otherwise the array is rotated, in this case we check the following. Is the element at the mid index less than the element at the mid-1 index, as the array is in sorted order, it doesn't matter if it's rotated this principle still applies, so if it is in sorted order and mid is less than mid-1 then this implies the mid element is the inflection point as this case is not possible in a sorted array. Otherwise if mid > mid+1, once again this implies that the element at the mid index is greater than the element in front of it, which cannot be in a sorted array, hence the element at the mid+1 index is less than the element at the mid index, hence, the element at the mid+1 index is the inflection point. Finally, if none of these conditions are true, we need to move left or right accordingly. We go right if the mid index element is greater than the 0th index element as this implies the array from 0:mid is in proper sorted order, to go right we do left = mid + 1 else if the element at the mid index is less than or equal to the element at the 0th index we go left so we do rigt = mid - 1. Remember to use modulo to get wrap around with the array indexing and from Java and C# you can't do negative values % n so when mid = 0 you need to skip.
+
+- Steps:
+1. Check n[0] <= n[-1] if this is true then array is not rotated so return n[0]
+2. Each iteration check mid != 0 and mid < mid-1
+3. Each iteration check mid > mid+1
+3. Go left by doing right = mid - 1 if mid <= 0th index element
+4. Go right by doing left = mid + 1 if mid > 0th index element
+
+- Algorithm Pyton
+```
+def inflectionPointPattern(nums):
+    # If the element at the 0th index is <= the element at the end of the array, then the array has NOT been rotated so return the first value
+    # As the first value IS the minimum value
+    # [1,2,3,4,5] implies n[0] <= n[-1] implies 1 <= 5 implies array HAS NOT been rotated
+    # [5,1,2,3,4] implies n[0] <= n[-1] implies 5 > 4 implies array HAS been rotated
+    # [2,3,4,5,1] implies n[0] <= n[-1] implies 2 > 1 implies array HAS been rotated
+    if nums[0] <= nums[-1]:
+        return nums[0]
+    left = 0
+    right = len(nums) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        # If value behind/prior to the current value is GREATER THAN the current value, this implies that the current value is the inflection point
+        # This is because that remember the array is in sorted order, so even if it has been rotated, if you ever arrive at an instance where
+        # nums[i-1] > nums[i] then nums[i] is the inflection point
+        # [2,3,4,5,1], nums[i] = 1, then nums[i-1] = 5, then nums[i-1] > nums[i] then nums[i] MUST be the inflection point as there can only ever
+        # be one such occurence in the rotated sorted array!  
+        if nums[(mid-1)%len(nums)] > nums[mid]:
+            return nums[mid]
+        # If value at the current index is greater than the value at the i+1th index, then clearly, given this is a sorted array the value at the 
+        # i+1th index is the inflection point! 
+        # [3,4,5,1,2], given nums[i] = 5, then nums[i+1] = 1, then nums[i] > nums[i+1] but because the array is sorted this should be impossible! 
+        # However the array is rotated and all this implies is that the i+1th index element is the inflection point! 
+        elif nums[mid] > nums[(mid+1)%len(nums)]:
+            return nums[(mid+1)%len(nums)]
+        # If the element at the current mid index is greater than the element at the start of the array, then we can say that up till this point 
+        # in the array it is in proper sorted order so we just go right.
+        # [2,3,4,5,1], mid = 4, nums[0] = 2, therefore 4 > 2, hence nums[0:mid] is in proper sorted order so we go right! 
+        elif nums[mid] > nums[0]:
+            left = mid + 1
+        # If the element at the current mid index is LESS THAN the element at the 0th index, the start of the array, this implies that the rotated
+        # portion of the array falls within nums[0:mid], this implies that the smallest element falls within this subarray too, so we need to go 
+        # left
+        # [5,1,2,3,4]
+        else:
+            right = mid - 1
+
+# MAIN KEY FOR GOING LEFT AND RIGHT IN THE ROT
+# TO GO LEFT IN ARRAY FOR BINARY SEARCH WE DO RIGHT = MID -1 
+# TO GO RIGHT IN ARRAY FOR BINARY SEARCH WE DO LEFT = MID + 1
+
+print(inflectionPointPattern([1,2,3,4,5]))
+print(inflectionPointPattern([5,1,2,3,4]))
+print(inflectionPointPattern([2,3,4,5,1]))
+print(inflectionPointPattern([2,1]))
+```
+
+- Algorithm Java
+```
+    public static int findInflectionPoint(int[] nums) {
+        if (nums[0] <= nums[nums.length-1]) {
+            return nums[0];
+        }
+        int left,right,mid;
+        left = 0;
+        right = nums.length-1;
+        while (left<=right) {
+            mid = (left+right) / 2;
+            if (mid != 0 && nums[mid] < nums[(mid-1)%nums.length]) {
+                return nums[mid];
+            }
+            else if (nums[mid] > nums[(mid+1)%nums.length]) {
+                return nums[(mid+1)%nums.length];
+            }
+            else if (nums[mid] > nums[0]) {
+                left = mid + 1;
+            }
+            else if (nums[mid] < nums[0]) {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {5,1,2,3,4};
+        System.out.println(findInflectionPoint(nums));
+    }
+```
+
+- Algorithm C#
+```
+    public static int findInflectionPoint(int[] nums) {
+        if (nums[0] <= nums[nums.Length-1]) {
+            return nums[0];
+        }
+        int left, right, mid;
+        left = 0;
+        right = nums.Length-1;
+        while (left<=right) {
+            mid = (left+right) / 2;
+            if (mid != 0 && nums[mid] < nums[(mid-1)%nums.Length]) {
+                return nums[mid];
+            }
+            else if (nums[mid] > nums[(mid+1)%nums.Length]) {
+                return nums[(mid+1)%nums.Length];
+            }
+            else if (nums[mid] > nums[0]) {
+                left = mid + 1;
+            }
+            else if (nums[mid] <= nums[0]) {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void Main(string[] args) {
+        int[] nums = {5,1,2,3,4};
+        Console.WriteLine(findInflectionPoint(nums));
+    }
+```
 ## Longest Consecutive Sequence
 - Pattern: Sequence start finding pattern
 - Complexity: O(n) time, O(n) space
