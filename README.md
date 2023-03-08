@@ -528,6 +528,103 @@ def nextClosestTime(time):
 ```
 
 # Arrays
+## Trapping Rainwater
+- Pattern: Left & right min max array pattern
+- Complexity: O(n) time, O(n) space
+- Explanation:
+1. Consider the fact that at each elmement of the array you need to have the max left subarray value and max right subarray value. For example assuming we are at index i in the array, you need to have the max value in the subarray from 0 - i and i+1 - end. These values will be the area in which the water can sit within, the issue is that you need to take the minimum of these two values. Why? Because if the left subarray max value is 2 and the right subarray max value is 3 then of course after reaching 2 and water would spill over, that is the idea, that is why you must take the minimum of these two max subarray values to get the dimension of the container. Once you have derived the minimum value all you need to do is deduct the current elements value from that, so in essence what you are doing is deducting the height of your current pillar from the height of the largest pillar on the left and right of the container. Now to achieve this in code all we need to do is three loops. First loop is to derive the left subarray where each index element corresponds to the max left subarray value for each index element in the original heights array. Repeat this same step to derive a right subarray so the right subarray at each index corresponds to the max right subarray value for each index element in the original height array in question. Finally in the final iteration, for each index we need to add the possible water so we take the min between the to max right subarray and left subarray index values for the current index element and deduct that max value from the current element value to derive the value for the water which is held at the current index of the original question array.
+- Steps:
+1. Define two arrays of the same length as the question array filled with 0 values
+2. Do a left pass through the question array, at each index add the value of the current max value
+3. Update the current max value by comparing with the current element value
+4. Repeat steps 2-3 for right subarray, for right subarray we do a reverse for loop
+5. Loop thorugh the question array and at each index find the possible water by taking the minimum between the left and right subarray values at the corresponding index and deducitng the current element value from them. 
+
+- Algorithm Python
+```
+def trapWater(heights):
+    left_subarray = [0] * len(heights)
+    right_subarray = [0] * len(heights)
+    max_left = heights[0]
+    max_right = heights[-1]
+    water = 0
+    for i in range(1, len(heights)):
+        left_subarray[i] = max_left
+        max_left = max(max_left, heights[i])
+    for i in range(len(heights)-2, -1, -1):
+        right_subarray[i] = max_right
+        max_right = max(max_right, heights[i])
+    for i in range(1, len(heights)-1):
+        min_max_value = min(left_subarray[i], right_subarray[i])
+        water += max(0, min_max_value - heights[i])
+    return water
+
+heights = [0,1,0,2,1,0,1,3,2,1,2,1]
+print(trapWater(heights))
+```
+
+- Algorithm Java
+```
+public class TrappingRainWater {
+    public static int trapWater(int[] height) {
+        int[] leftSubarray = new int[height.length];
+        int[] rightSubarray = new int[height.length];
+        int maxLeft, maxRight, water;
+        maxLeft = height[0];
+        maxRight = height[height.length-1];
+        water = 0;
+        for (int i=0;i<height.length;i++) {
+            leftSubarray[i] = maxLeft;
+            maxLeft = Math.max(maxLeft, height[i]);
+        }
+        for (int i=height.length-2;i>-1;i--) {
+            rightSubarray[i] = maxRight;
+            maxRight = Math.max(maxRight, height[i]);
+        }
+        for (int i=1;i<height.length-1;i++) {
+            water += Math.max(0, Math.min(leftSubarray[i], rightSubarray[i]) - height[i]);
+        }
+        return water;
+    } 
+
+    public static void main(String[] args) {
+        int[] height = {0,1,0,2,1,0,1,3,2,1,2,1};
+        System.out.println(trapWater(height));
+    }
+}
+
+```
+
+- Algorithm C#
+```
+class TrappingRainWater {
+    public static int trapWater(int[] height) {
+        int[] leftSubarray = new int[height.Length];
+        int[] rightSubarray = new int[height.Length];
+        int maxLeft, maxRight, water;
+        maxLeft = height[0];
+        maxRight = height[height.Length-1];
+        water = 0;
+        for (int i=0;i<height.Length;i++) {
+            leftSubarray[i] = maxLeft;
+            maxLeft = Math.Max(maxLeft, height[i]);
+        }
+        for (int i=height.Length-2;i>-1;i--) {
+            rightSubarray[i] = maxRight;
+            maxRight = Math.Max(maxRight, height[i]);
+        }
+        for (int i=1;i<height.Length-1;i++) {
+            water += Math.Max(0, Math.Min(leftSubarray[i], rightSubarray[i]) - height[i]);
+        }
+        return water;
+    } 
+
+    public static void Main(String[] args) {
+        int[] height = {0,1,0,2,1,0,1,3,2,1,2,1};
+        Console.Write(trapWater(height));
+    }
+}
+```
 ## Container with most water
 - Pattern: Dynamic sliding window pattern
 - Complexity: O(n) time as we visit each element once and O(1) space.
