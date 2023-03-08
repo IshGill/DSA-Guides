@@ -528,6 +528,96 @@ def nextClosestTime(time):
 ```
 
 # Arrays
+## Longest Consecutive Sequence
+- Pattern: Sequence start finding pattern
+- Complexity: O(n) time, O(n) space
+- Explanation
+1. There are two keys to solving this problem. Firstly, realise that there is never any need to count the sequence from each element of the array, ths makes sense when you think about it, as we are looking for the longest/largest consecutive sequence, hence, we should only ever count the elements in the array which have no -1 value. For example give [100, 200, 2, 3, 1, 4] we would only count the sequence from the 100, 200 and 1 in the array as they are the sequence start values hence the values which have no -1 value in the array hence they are the beginning of any sequence if it exists hence they will derive the largest value. Next consider the fact that we want to have O(1) look up as we want to check firstly if nums[i] - 1 does NOT exist in the array, this is to confirm our current value is a sequence start value, next we want to check if sequence + 1 exists, hence, if the next value in the sequence exists as we need to count and find the longest conseuctive sequence, once again hashset is the clear option here for O(1) look up.
+
+- Steps:
+1. Convert array to set
+2. For every value n in the array check if n-1 exists
+3. If n-1 exists the do nothing as this is not a sequence start value
+4. If n-1 does not exist then you want to begin counting the sequence
+5. Count the sequence using a for loop and increment counter accordingly. 
+
+- Algorithm Python
+```
+def countSeq(nums):
+    nums_set = set(nums)
+    max_sequence = 1
+    for i in nums_set:
+        if i-1 not in nums_set:
+            count = 1
+            sequence = i+1
+            while sequence in nums_set:
+                count += 1
+                sequence += 1
+            max_sequence = max(max_sequence, count)
+    return max_sequence
+
+print(countSeq([0,3,7,2,5,8,4,6,0,1]))
+```
+
+- Algorithm Java
+```
+class LongestConsecutiveSequence {
+    public static int maxSeq(int[] nums) {
+        Set<Integer> hashSet = new HashSet<>();
+        for (int i=0; i<nums.length;i++) {
+            hashSet.add(nums[i]);
+        }
+        int sequence, maxSeq, count;
+        maxSeq = 1;
+        count = 1;
+        for (int i=0;i<nums.length;i++) {
+            if (!hashSet.contains(nums[i]-1)) {
+                sequence = nums[i] + 1; 
+                count = 1;
+                while (hashSet.contains(sequence)) {
+                    count++;
+                    sequence++;
+                }
+            }
+            maxSeq = Math.max(maxSeq, count);
+        }
+        return maxSeq;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {0,3,7,2,5,8,4,6,0,1};
+        System.out.println(maxSeq(nums));
+    }
+}
+```
+
+- Algorithm C#
+```
+class LongestConsecutiveSequence {
+    public static int maxSeq(int[] nums) {
+        int count, maxSeq, sequence;
+        count = maxSeq = 1;
+        HashSet<int> hashSet = new HashSet<int>(nums);
+        for (int i=0;i<nums.Length;i++) {
+            if (!hashSet.Contains(nums[i]-1)) {
+                sequence = nums[i] + 1;
+                count = 1;
+                while (hashSet.Contains(sequence)) {
+                    count++;
+                    sequence++;
+                }
+            }
+            maxSeq = Math.Max(maxSeq, count);
+        }
+        return maxSeq;
+    }
+
+    public static void Main(string[] args) {
+        int[] nums = {0,3,7,2,5,8,4,6,0,1};
+        Console.Write(maxSeq(nums));
+    }
+}
+```
 ## Trapping Rainwater
 - Pattern: Left & right min max array pattern
 - Complexity: O(n) time, O(n) space
